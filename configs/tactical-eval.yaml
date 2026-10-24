@@ -1,0 +1,4 @@
+# Never reuse audit or training seeds for held-out evaluation.
+seeds: [41000, 41001]
+spacings: [0.62, 0.9]
+opponents: [reactive, head_guard, body_guard]

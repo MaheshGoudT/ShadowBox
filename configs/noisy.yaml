@@ -1,0 +1,5 @@
+# Robustness experiment: policy-facing measurements only.
+perception:
+  position_noise: 0.01
+  velocity_noise: 0.03
+  delay_seconds: 0.08

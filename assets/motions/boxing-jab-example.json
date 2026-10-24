@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "source": {"kind": "hand_authored", "uri": ""},
+  "fps": 4,
+  "frames": [
+    {"joints": {"left_shoulder_pitch_joint": -1.3, "left_elbow_joint": -0.5792}},
+    {"joints": {"left_shoulder_pitch_joint": -1.8, "left_elbow_joint": 1.4908}},
+    {"joints": {"left_shoulder_pitch_joint": -1.3, "left_elbow_joint": -0.5792}}
+  ]
+}

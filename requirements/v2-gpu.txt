@@ -1,0 +1,21 @@
+# v2 GPU requirements for VLA/WAM/FLORA integration
+# Jetson Thor GPU environment
+
+# Core ML stack
+torch==2.14.1
+torchvision==0.29.1
+torchaudio==2.11.0
+
+# VLA models (future)
+# openvla (when available)
+# rt-2 (when available)
+
+# World Action Models (future)
+# nvflame (NVIDIA FLORA)
+
+# Data annotation
+# flora-captioner
+# flora-rewarder
+
+# Simulation enhancements
+# mujoco-warp (for GPU batched simulation)

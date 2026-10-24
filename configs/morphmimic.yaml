@@ -1,0 +1,10 @@
+# Paths resolve from the ShadowBox checkout. Keep this stack out of .venv.
+repository: external/MorphMimic
+revision: aa40fe46a7fa995ba7a7354ad065a2c8ad64a302
+training_python: .venv-morphmimic/bin/python
+runtime_python: .venv-morphmimic-runtime/bin/python
+deployment: tmp/morphmimic/deploy/unified
+assets: tmp/morphmimic/assets
+data: tmp/morphmimic/data
+output: tmp/morphmimic
+robot: g1

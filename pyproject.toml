@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shadowbox-ai-arena"
+version = "0.1.0"
+description = "A small, always-runnable humanoid shadowboxing simulation"
+requires-python = ">=3.10"
+dependencies = ["mujoco>=3.17", "numpy>=1.26", "PyYAML>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+learning = ["torch>=2.2"]
+
+[project.scripts]
+shadowbox-morphmimic = "shadowbox.integrations.morphmimic:main"
+shadowbox-holoboxing = "shadowbox.integrations.holoboxing:main"
+shadowbox = "shadowbox.app:main"
+shadowbox-train = "shadowbox.evaluation.optimize:main"
+shadowbox-learn = "shadowbox.evaluation.qlearning:main"
+shadowbox-diagnose = "shadowbox.evaluation.diagnostics:main"
+shadowbox-motion-eval = "shadowbox.evaluation.motion_replay:main"
+shadowbox-tactics = "shadowbox.rl.ppo:main"
+shadowbox-tactics-eval = "shadowbox.rl.evaluate:main"
+shadowbox-tactics-defense = "shadowbox.rl.defense:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+cache_dir = "tmp/pytest-cache"
+addopts = "--basetemp=tmp/pytest"

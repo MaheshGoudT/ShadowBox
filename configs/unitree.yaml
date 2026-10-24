@@ -1,0 +1,44 @@
+# G1 profile. Unlisted settings inherit configs/simulation.yaml.
+simulation:
+  model: unitree_g1
+  robot_spacing: 0.71
+  translation_damping: 320
+  pelvis_height: 0.745
+stance:
+  enabled: true
+footwork:
+  enabled: true
+  minimum_duration: 1.3
+supermimic:
+  enabled: true
+motion:
+  step_distance: 0.12
+  sidestep_distance: 0.10
+policy_rules:
+  distance_scale: 0.74
+  punch_ranges: {jab: 0.72, cross: 0.64, uppercut: 0.59}
+policies:
+  a: {aggression: 0.72, reaction: 0.18, desired_distance: 0.58}
+  b: {aggression: 0.72, reaction: 0.18, desired_distance: 0.58}
+safety:
+  min_separation: 0.50
+  monitor_separation: 0.45
+  boundary_margin: 0.30
+  boundary_override_margin: 0.20
+scoring:
+  minimum_forward_speed: 0.01
+  proximity_fallback: true
+match:
+  round_seconds: 60
+training:
+  perturbation_std: [0.15, 0.06, 0.04]
+  lower_bounds: [0.25, 0.08, 0.50]
+  upper_bounds: [0.98, 0.50, 0.75]
+  validation_opponents:
+    - {aggression: 0.45, reaction: 0.30, desired_distance: 0.56}
+    - {aggression: 0.95, reaction: 0.10, desired_distance: 0.66}
+  output: tmp/policies/unitree-parameters.json
+learning:
+  output: tmp/policies/unitree-tabular.json
+viewer:
+  camera_distance: 5.8

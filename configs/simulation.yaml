@@ -1,0 +1,152 @@
+# All lengths are metres, times seconds, and angles radians.
+simulation:
+  model: capsule
+  timestep: 0.01
+  arena_half_size: 3.0
+  robot_spacing: 2.5
+  translation_damping: 160
+  translation_gain: 350
+  joint_gain: 150
+  pelvis_height: 0.793
+stance:
+  enabled: false
+  lead_forward: 0.14
+  rear_backward: 0.12
+  width: 0.22
+  sole_height: 0.005
+  rear_toe_out: -0.12
+  ik_iterations: 60
+  ik_tolerance: 0.0003
+footwork:
+  enabled: false
+  minimum_duration: 1.0
+  lift_height: 0.025
+  landing_seconds: 0.25
+motion:
+  step_distance: 0.22
+  sidestep_distance: 0.18
+  minimum_duration: 0.4
+  # Joint order: x, y, yaw, left shoulder/elbow, right shoulder/elbow.
+  velocity_limits: [0.8, 0.8, 3.0, 7.0, 7.0, 7.0, 7.0]
+  acceleration_limits: [3.0, 3.0, 14.0, 55.0, 55.0, 55.0, 55.0]
+match:
+  round_seconds: 20
+  rounds: 3
+  break_seconds: 2
+  defense_only: false
+policies:
+  a: {aggression: 0.72, reaction: 0.18, desired_distance: 0.78}
+  b: {aggression: 0.72, reaction: 0.18, desired_distance: 0.78}
+safety:
+  min_separation: 0.66
+  monitor_separation: 0.60
+  boundary_margin: 0.45
+  boundary_override_margin: 0.35
+  path_samples: 25
+scoring:
+  minimum_forward_speed: 0.05
+  proximity_fallback: false
+tactics:
+  proactive_body_guard: true
+  inference_temperature: 0.5
+  reward:
+    touch: 1.0
+    conceded_touch: -1.0
+    block: 0.3
+    opponent_block: -0.3
+    miss: -0.1
+    rejection: -0.1
+    second: -0.01
+    safety_stop: -5.0
+    accepted_attempt: 0.08
+    idle_guard: -0.12
+    unprovoked_retreat: -0.10
+viewer:
+  samples: 0
+  convex_hulls: true
+  shadows: false
+  max_catchup_seconds: 1.0
+  repeat_delay_seconds: 2.0
+  software: true
+  width: 1100
+  height: 760
+  frames_per_second: 50
+  camera_distance: 7.2
+  camera_azimuth: 90
+  camera_elevation: -25
+logging:
+  max_bytes: 5000000
+  backup_count: 3
+  level: INFO
+  directory: tmp/logs
+  result: tmp/results/latest.json
+training:
+  search_seed: 0
+  perturbation_std: [0.15, 0.06, 0.06]
+  lower_bounds: [0.25, 0.08, 0.68]
+  upper_bounds: [0.98, 0.50, 0.95]
+  validation_seed_offset: 10000
+  validation_opponents:
+    - {aggression: 0.45, reaction: 0.30, desired_distance: 0.76}
+    - {aggression: 0.95, reaction: 0.10, desired_distance: 0.90}
+  iterations: 8
+  seeds: 3
+  round_seconds: 12
+  output: tmp/policies/candidate.json
+
+# Add to the default config schema; this is CPU tabular RL, not neural training.
+learning:
+  resume: ""
+  episodes: 120
+  seconds: 20
+  seed: 0
+  alpha: 0.15
+  discount_per_second: 0.97
+  epsilon_start: 0.35
+  epsilon_end: 0.05
+  prior_bonus: 0.05
+  time_cost: 0.01
+  rejection_cost: 0.05
+  failure_cost: 5.0
+  snapshot_every: 20
+  pool_size: 4
+  validation_seeds: [20000, 20001, 20002]
+  selfplay_validation_seeds: [30000, 30001]
+  minimum_attempts_per_second: 0.15
+  idle_after_seconds: 4.0
+  idle_cost: 0.06
+  approach_reward: 0.75
+  far_time_cost: 0.05
+  output: tmp/policies/tabular.json
+
+# Sensor perturbations affect policies; referee/supervisor keep exact physics state.
+perception:
+  position_noise: 0.0
+  velocity_noise: 0.0
+  delay_seconds: 0.0
+
+storage:
+  huggingface_home: /home/mahesh/Desktop/huggingfacehub
+
+policy_rules:
+  distance_scale: 1.0
+  punch_ranges: {jab: 1.10, cross: 1.10, uppercut: 1.10}
+articulation:
+  duration: 1.6
+  velocity_limit: 1.5
+  acceleration_limit: 4.0
+
+# Optional pose smoothing. A trained motion tracker is not included.
+natural_motion:
+  enabled: false
+  use_gpu: true
+  smoothness_weight: 1.0
+  velocity_limits: [0.8, 0.8, 3.0, 7.0, 7.0, 7.0, 7.0]
+  acceleration_limits: [3.0, 3.0, 14.0, 55.0, 55.0, 55.0, 55.0]
+  recovery_duration: 0.5
+supermimic:
+  enabled: false
+  model_path: ""
+  motion_library: "assets/motions/g1-motions.json"
+  use_gpu: true
+  inference_batch_size: 1

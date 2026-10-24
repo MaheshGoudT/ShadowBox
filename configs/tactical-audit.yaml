@@ -1,0 +1,10 @@
+# Strict scorer; inspect every legal decision before training.
+seeds: [31000, 31001]
+spacings: [0.62, 0.72, 0.9]
+opponents: [reactive, head_guard, body_guard]
+max_rejection_rate: 0.05
+required_examples: [jab, cross, uppercut, guard, body_guard]
+examples_per_action: 2
+max_examples_per_action: 16
+demo_seconds: 12
+output_dir: tmp/tactical-iteration

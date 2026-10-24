@@ -1,0 +1,4 @@
+# Physics/motion trend check; it does not certify hardware readiness.
+seeds: [51, 52]
+seconds: 8
+output: tmp/tactical-iteration/simulation-diagnostics.json

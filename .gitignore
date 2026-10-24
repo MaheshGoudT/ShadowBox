@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+*.egg-info/
+
+tmp/
+
+.venv-holoboxing/
+.venv-holoboxing-retarget/
+.venv-morphmimic/
+.venv-morphmimic-runtime/
+
+# Local environments and execution notes are not release sources.
+.venv*/
+/docs/planning.md

@@ -1,0 +1,5 @@
+# Runs only after the action audit and demonstration gate pass.
+episodes: 24
+seconds: 8
+seed: 137
+checkpoint: tmp/tactical-iteration/candidate.pt

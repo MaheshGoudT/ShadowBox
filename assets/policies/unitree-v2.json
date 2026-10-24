@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "parameters": {
+    "aggression": 0.98,
+    "reaction": 0.22732381715545172,
+    "desired_distance": 0.575233409050059
+  },
+  "promoted": true,
+  "method": "seeded reactive-policy parameter search",
+  "report": "/home/mahesh/Desktop/ShadowBox/tmp/policies/unitree-v2_report.json"
+}

@@ -1,0 +1,7 @@
+# Direct CPU sim2sim dependencies from MorphMimic aa40fe4 uv.lock.
+# Install in .venv-morphmimic-runtime (Python 3.11), never the core .venv.
+numpy==2.4.6
+mujoco==3.11.0
+onnxruntime==1.31.0
+pyzmq==27.2.0
+msgpack==1.2.3

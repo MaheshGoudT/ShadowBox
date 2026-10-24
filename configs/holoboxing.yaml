@@ -1,0 +1,11 @@
+# All paths are relative to the ShadowBox checkout, not the current directory.
+repository: external/HoloMotion
+revision: f52dd81ae935a828b0296f5ee0f833beb7378bf0
+training_python: .venv-holoboxing/bin/python
+retarget_python: .venv-holoboxing-retarget/bin/python
+evaluation_image: horizonrobotics/holomotion:holoboxing-eval-v12-amd64
+device: cuda:0
+assets: external/HoloMotion/holoboxing/assets
+lower: tmp/holoboxing/models/holomotion-v2
+data: tmp/holoboxing/data/processed/combined/prepared
+output: tmp/holoboxing/results

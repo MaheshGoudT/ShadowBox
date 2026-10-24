@@ -1,0 +1,6845 @@
+{
+  "kind": "tabular_q",
+  "schema_version": 1,
+  "actions": [
+    "guard",
+    "turn_to_target",
+    "step_forward",
+    "step_backward",
+    "sidestep_left",
+    "sidestep_right",
+    "jab",
+    "cross"
+  ],
+  "source_fingerprint": "c9eb1fa963bafca3",
+  "settings": {
+    "episodes": 120,
+    "seconds": 20.0,
+    "seed": 0,
+    "alpha": 0.15,
+    "discount_per_second": 0.97,
+    "epsilon_start": 0.35,
+    "epsilon_end": 0.05,
+    "prior_bonus": 0.05,
+    "time_cost": 0.01,
+    "rejection_cost": 0.05,
+    "failure_cost": 5.0,
+    "snapshot_every": 20,
+    "pool_size": 4,
+    "validation_seeds": [
+      20000,
+      20001,
+      20002
+    ],
+    "output": "tmp/policies/tabular.json",
+    "resume": ""
+  },
+  "parameters": {
+    "aggression": 0.72,
+    "reaction": 0.18,
+    "desired_distance": 0.78
+  },
+  "table": {
+    "5,0,0,0,1": [
+      0.025585881271817094,
+      0.0,
+      0.13603057677953337,
+      0.018740643449060665,
+      0.03675898073221563,
+      0.06424727019991854,
+      0.0,
+      0.0
+    ],
+    "5,1,0,0,0": [
+      0.0469233800047211,
+      0.0,
+      0.12602443696386958,
+      0.04399525451311581,
+      0.04389016775014726,
+      0.05599136573640396,
+      0.0,
+      0.0
+    ],
+    "4,1,0,0,0": [
+      0.03991641799757699,
+      0.0,
+      0.1539391873117232,
+      0.07083241274168102,
+      0.0040870673001149865,
+      0.007640701450907535,
+      0.0,
+      0.0
+    ],
+    "2,0,0,0,0": [
+      0.12597966945832118,
+      0.0,
+      0.0866617159218206,
+      0.06607689713978503,
+      -0.051734797168828256,
+      0.08173733690429595,
+      0.1516797222023671,
+      0.048961425006957465
+    ],
+    "1,0,0,0,1": [
+      0.06590633420511653,
+      0.0,
+      0.06404587519239806,
+      0.1052543741304466,
+      -0.12436908699016862,
+      0.032200174880157334,
+      -0.12987412360461179,
+      0.002278091179187456
+    ],
+    "1,1,0,0,1": [
+      -0.09923813924339167,
+      0.0,
+      0.009317626598063546,
+      -0.11900502226015473,
+      -0.15619124884540064,
+      -0.09099495152185133,
+      -0.04724622725029509,
+      0.008621039012249615
+    ],
+    "1,1,0,1,2": [
+      0.0,
+      0.027652928082431714,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,0,0,0,1": [
+      0.09530269410641584,
+      0.0,
+      0.15490774654733305,
+      0.060918891717676185,
+      0.016414764238021375,
+      0.005774397132881719,
+      0.031247048552864334,
+      0.08978552212266713
+    ],
+    "2,0,0,1,2": [
+      0.0,
+      0.1469704333087006,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,0,0,1,1": [
+      0.0,
+      0.11117164208917427,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,1,0,0,1": [
+      0.014296077606615571,
+      0.0,
+      0.09302461602693272,
+      0.048202165379208683,
+      0.008311187995026878,
+      0.0,
+      0.053403847150419265,
+      0.0
+    ],
+    "2,0,0,0,2": [
+      0.1613742749774127,
+      0.0,
+      0.08772560565124107,
+      0.04398657532040151,
+      0.05652910738632702,
+      0.06106587990756268,
+      0.048115198661050164,
+      0.10129104972006589
+    ],
+    "2,0,0,1,1": [
+      0.0,
+      0.1824067965503315,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "5,0,0,0,0": [
+      0.008354864722268504,
+      0.0,
+      0.14519267824933696,
+      0.04154243907830768,
+      0.0,
+      0.09105907991297045,
+      0.0,
+      0.0
+    ],
+    "4,0,0,0,0": [
+      0.031941972707094604,
+      0.0,
+      0.1481856625829854,
+      0.036108937870498264,
+      0.05456514136572378,
+      0.08647566479472689,
+      0.0,
+      0.0
+    ],
+    "4,1,0,1,0": [
+      0.0,
+      0.07086043579974691,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "4,0,0,0,1": [
+      0.009747194882036828,
+      0.0,
+      0.1436370904689817,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,0,0": [
+      0.10057945128397171,
+      0.0,
+      -0.004685735979915892,
+      0.0,
+      0.03799599159755665,
+      0.02994564119049193,
+      0.033120698617620445,
+      0.043086300525113336
+    ],
+    "1,1,0,0,0": [
+      0.013208696821637847,
+      0.0,
+      0.03742614941613328,
+      0.12117298190670933,
+      -0.04519577258975982,
+      0.02153702604297215,
+      0.024278823731068322,
+      0.0
+    ],
+    "1,0,0,1,2": [
+      0.0,
+      0.1695795708805214,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,0,1": [
+      0.0,
+      0.0,
+      0.12700003500742316,
+      0.017342298275300115,
+      0.04779619979399795,
+      0.027097153492904653,
+      0.0219292108317292,
+      0.22897658564093681
+    ],
+    "1,0,0,0,0": [
+      0.015070417936890967,
+      0.0,
+      0.0,
+      0.0,
+      -0.0006000000000000933,
+      0.04434806550499219,
+      0.022442161099290377,
+      0.21116272273817094
+    ],
+    "2,1,0,1,2": [
+      0.0,
+      0.09248495929802819,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,0,0,0": [
+      0.03215965932725011,
+      0.0,
+      0.0,
+      0.08428817100094248,
+      0.00617114481024184,
+      0.023715226980410148,
+      0.022538927851018027,
+      0.031321987007184623
+    ],
+    "2,1,0,0,0": [
+      0.053785652004843205,
+      0.0,
+      -0.002224273008073943,
+      0.013812456872191308,
+      0.03898796923355464,
+      0.21968767166549377,
+      0.01707242704111855,
+      0.0
+    ],
+    "1,0,0,1,0": [
+      0.0,
+      0.1269397339259818,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,1,0,1,0": [
+      0.0,
+      0.037960305411485984,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,0,0,0,2": [
+      0.0,
+      0.0,
+      0.0,
+      0.018723553798866383,
+      0.0,
+      0.0,
+      0.0,
+      0.19754514121786462
+    ],
+    "3,1,0,0,1": [
+      0.0077141480135835255,
+      0.0,
+      0.02610538502611476,
+      0.04003394466208445,
+      0.0,
+      0.00257275208153212,
+      0.0,
+      0.01995555020042151
+    ],
+    "2,1,0,1,1": [
+      0.0,
+      0.11738423257077403,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,1,0,1,1": [
+      0.0,
+      0.1860094242704035,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,0,2": [
+      0.07457058036402678,
+      0.0,
+      0.09405947978682393,
+      0.019833033881141535,
+      0.09766643792222858,
+      0.038854738218810844,
+      0.012467816008374466,
+      -0.0001650000000000258
+    ],
+    "2,0,0,1,0": [
+      0.0,
+      0.23224597352009557,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,0,1,0": [
+      0.0,
+      0.10001977628661823,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "0,0,0,0,1": [
+      0.0,
+      0.0,
+      0.0,
+      0.10215104770501264,
+      0.018817713259303155,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,1,2": [
+      0.0,
+      0.10139882854758059,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,1,0,0,2": [
+      -0.12585652822371932,
+      0.0,
+      0.0,
+      0.08045554975903998,
+      0.029435939701147995,
+      0.03346076794833243,
+      0.0,
+      0.024471322468329657
+    ],
+    "4,1,0,0,1": [
+      0.0,
+      0.0,
+      0.05639928748089396,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "5,1,0,1,0": [
+      0.0,
+      0.046836206850984705,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,1,0,0,2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.12653975586367391,
+      0.0,
+      0.10798322693385351,
+      0.056769013502148864
+    ],
+    "4,0,0,0,2": [
+      0.016730040417798908,
+      0.0,
+      0.08563759355342766,
+      0.0,
+      0.00617114481024184,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "4,0,0,1,0": [
+      0.0,
+      0.04845102552312498,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,1,0,1": [
+      0.0,
+      0.0,
+      0.03771042534480893,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,0,1,0,0": [
+      0.023194597820783206,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.08464348277282092,
+      0.0
+    ],
+    "2,0,1,0,2": [
+      0.0,
+      0.0,
+      0.05622399990393083,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,0,1,0,0": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04870560914120014,
+      0.0,
+      0.0
+    ],
+    "1,0,1,1,1": [
+      0.0,
+      0.04798861807612775,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,0,1,0,2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04237999999999999,
+      0.0,
+      0.0
+    ],
+    "5,0,0,0,2": [
+      0.0,
+      0.0,
+      0.08028275468872872,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,1,0": [
+      0.0,
+      0.08196675493027247,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,0,1,1": [
+      0.0,
+      0.12561794978723434,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,0,0,2": [
+      0.0,
+      0.0,
+      0.0,
+      0.07554901434722688,
+      0.008737934758680701,
+      0.03158112620232559,
+      0.0,
+      0.0
+    ],
+    "0,0,0,1,1": [
+      0.0,
+      0.08359667096866678,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,0,1,1": [
+      0.0,
+      0.05923249358654026,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,1,1,0,0": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04628648723569797,
+      0.0,
+      0.0
+    ],
+    "2,1,1,0,0": [
+      0.0,
+      0.0,
+      0.028387934475738057,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,1,1,1,0": [
+      0.0,
+      0.04899866595913089,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "1,0,1,0,1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.10285390573779579,
+      0.0,
+      0.0
+    ],
+    "1,1,1,0,1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.041157130216473756,
+      0.0012970480792436885
+    ],
+    "1,1,0,1,0": [
+      0.0,
+      -0.06165829531346796,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,1,1,0,2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.048671144810241845,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "3,0,1,0,2": [
+      0.0,
+      0.0,
+      0.046335488787005136,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,0,1,1,0": [
+      0.0,
+      0.047952690591290446,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2,1,1,0,1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.048671144810241845,
+      0.0,
+      0.0
+    ],
+    "2,0,1,0,1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.19820614176801238,
+      0.0
+    ],
+    "2,1,1,1,1": [
+      0.0,
+      0.04775106245555604,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "promoted": true,
+  "completed_episodes": 120,
+  "training_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119
+  ],
+  "history": [
+    {
+      "episode": 1,
+      "epsilon": 0.35,
+      "states": 13,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 0,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 1,
+        "blocks": 5,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 2,
+      "epsilon": 0.34747899159663864,
+      "states": 18,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 1,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 3,
+      "epsilon": 0.3449579831932773,
+      "states": 23,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 2,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 6,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 2,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 4,
+      "epsilon": 0.34243697478991597,
+      "states": 26,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 3,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 7,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 5,
+      "epsilon": 0.3399159663865546,
+      "states": 26,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 4,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 5,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 8,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 6,
+      "epsilon": 0.33739495798319324,
+      "states": 27,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 5,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 2
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 2,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 7,
+      "epsilon": 0.3348739495798319,
+      "states": 28,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 6,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 11,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 6
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 8,
+      "epsilon": 0.3323529411764706,
+      "states": 30,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 7,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 5,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 9,
+      "epsilon": 0.32983193277310924,
+      "states": 32,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 8,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 7,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 4,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 10,
+      "epsilon": 0.3273109243697479,
+      "states": 33,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 9,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 1
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 11,
+      "epsilon": 0.3247899159663865,
+      "states": 33,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 10,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 4
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 12,
+      "epsilon": 0.3222689075630252,
+      "states": 38,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 11,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 13,
+      "epsilon": 0.31974789915966384,
+      "states": 39,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 12,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 6,
+        "misses": 1
+      },
+      "touch_difference": -2,
+      "reward": -2.0,
+      "rejected": 1,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 14,
+      "epsilon": 0.3172268907563025,
+      "states": 39,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 13,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 3,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 1
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 2,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 15,
+      "epsilon": 0.31470588235294117,
+      "states": 39,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 14,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 8,
+        "blocks": 3,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": 7,
+      "reward": 7.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 16,
+      "epsilon": 0.31218487394957983,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 15,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 2
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 17,
+      "epsilon": 0.3096638655462185,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 16,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 4,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": 4,
+      "reward": 4.0,
+      "rejected": 2,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 18,
+      "epsilon": 0.3071428571428571,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 17,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 2,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 19,
+      "epsilon": 0.30462184873949577,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 18,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 11,
+        "touches": 5,
+        "blocks": 4,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 11,
+        "touches": 3,
+        "blocks": 3,
+        "misses": 4
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 20,
+      "epsilon": 0.30210084033613444,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 19,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 18,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 21,
+      "epsilon": 0.2995798319327731,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 20,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 22,
+      "epsilon": 0.29705882352941176,
+      "states": 40,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 21,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 23,
+      "epsilon": 0.2945378151260504,
+      "states": 40,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 22,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 4,
+        "blocks": 2,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 3,
+        "blocks": 2,
+        "misses": 0
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 24,
+      "epsilon": 0.29201680672268904,
+      "states": 42,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 23,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 1,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 25,
+      "epsilon": 0.2894957983193277,
+      "states": 42,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 24,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 9
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 9
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 17,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 26,
+      "epsilon": 0.28697478991596637,
+      "states": 42,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 25,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 8
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 9
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 18,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 27,
+      "epsilon": 0.28445378151260503,
+      "states": 42,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 26,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 5
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 28,
+      "epsilon": 0.2819327731092437,
+      "states": 42,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 27,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 29,
+      "epsilon": 0.27941176470588236,
+      "states": 48,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 28,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 2,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 3,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 0
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 30,
+      "epsilon": 0.276890756302521,
+      "states": 50,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 29,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 31,
+      "epsilon": 0.27436974789915963,
+      "states": 50,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 30,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 0
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 2,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 32,
+      "epsilon": 0.2718487394957983,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 31,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 33,
+      "epsilon": 0.26932773109243696,
+      "states": 52,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 32,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 3,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 34,
+      "epsilon": 0.2668067226890756,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 33,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 3,
+        "blocks": 2,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 6
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 35,
+      "epsilon": 0.2642857142857143,
+      "states": 52,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 34,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 5,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 36,
+      "epsilon": 0.2617647058823529,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 35,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 5,
+        "misses": 7
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 28,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 37,
+      "epsilon": 0.25924369747899156,
+      "states": 52,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 36,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 3,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 0
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 38,
+      "epsilon": 0.25672268907563023,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 37,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 5,
+        "misses": 5
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 39,
+      "epsilon": 0.2542016806722689,
+      "states": 52,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 38,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 11,
+        "touches": 0,
+        "blocks": 5,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 9,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 40,
+      "epsilon": 0.25168067226890756,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 39,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 7
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 41,
+      "epsilon": 0.2491596638655462,
+      "states": 52,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 40,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 6,
+        "misses": 5
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 42,
+      "epsilon": 0.24663865546218486,
+      "states": 52,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 41,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 16,
+        "touches": 1,
+        "blocks": 16,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 18,
+        "touches": 1,
+        "blocks": 14,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 2,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 43,
+      "epsilon": 0.2441176470588235,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 42,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 7,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 1
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 44,
+      "epsilon": 0.24159663865546216,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 43,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 9,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 11,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 45,
+      "epsilon": 0.23907563025210082,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 44,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 2,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 46,
+      "epsilon": 0.2365546218487395,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 45,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 1,
+        "blocks": 11,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 14,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 47,
+      "epsilon": 0.23403361344537812,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 46,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 48,
+      "epsilon": 0.2315126050420168,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 47,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 2,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 49,
+      "epsilon": 0.22899159663865543,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 48,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 6,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 50,
+      "epsilon": 0.2264705882352941,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 49,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 51,
+      "epsilon": 0.22394957983193275,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 50,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 7
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 52,
+      "epsilon": 0.22142857142857142,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 51,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 4,
+        "blocks": 0,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 53,
+      "epsilon": 0.21890756302521006,
+      "states": 53,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 52,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 6,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 11,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 54,
+      "epsilon": 0.21638655462184872,
+      "states": 53,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 53,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 55,
+      "epsilon": 0.21386554621848738,
+      "states": 54,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 54,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 5,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 3
+      },
+      "touch_difference": 5,
+      "reward": 5.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 56,
+      "epsilon": 0.21134453781512602,
+      "states": 54,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 55,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 7,
+        "blocks": 1,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 11,
+        "touches": 8,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 18,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 57,
+      "epsilon": 0.20882352941176469,
+      "states": 54,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 56,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 5,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 3,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 0,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 58,
+      "epsilon": 0.20630252100840335,
+      "states": 54,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 57,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 4,
+        "blocks": 0,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 6,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": -2,
+      "reward": -2.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 59,
+      "epsilon": 0.20378151260504201,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 58,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 4,
+      "updates": 28,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 60,
+      "epsilon": 0.20126050420168065,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 59,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 61,
+      "epsilon": 0.19873949579831932,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 60,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 4
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 0,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 62,
+      "epsilon": 0.19621848739495798,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 61,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 11,
+        "touches": 4,
+        "blocks": 5,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 11,
+        "touches": 3,
+        "blocks": 3,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 63,
+      "epsilon": 0.19369747899159662,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 62,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 5,
+        "blocks": 4,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 1
+      },
+      "touch_difference": 3,
+      "reward": 3.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 64,
+      "epsilon": 0.19117647058823528,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 63,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 5,
+        "blocks": 0,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 9,
+        "blocks": 0,
+        "misses": 1
+      },
+      "touch_difference": -4,
+      "reward": -4.0,
+      "rejected": 0,
+      "updates": 18,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 65,
+      "epsilon": 0.18865546218487395,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 64,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 6
+      },
+      "touch_difference": -2,
+      "reward": -2.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 66,
+      "epsilon": 0.1861344537815126,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 65,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 1,
+        "blocks": 8,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 12,
+        "touches": 1,
+        "blocks": 6,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 67,
+      "epsilon": 0.18361344537815125,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 66,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 11,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 7,
+        "misses": 2
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 68,
+      "epsilon": 0.1810924369747899,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 67,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 18,
+        "touches": 1,
+        "blocks": 17,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 19,
+        "touches": 1,
+        "blocks": 17,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 69,
+      "epsilon": 0.17857142857142858,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 68,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 10,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 4,
+        "blocks": 5,
+        "misses": 0
+      },
+      "touch_difference": -2,
+      "reward": -2.0,
+      "rejected": 1,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 70,
+      "epsilon": 0.17605042016806718,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 69,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 8
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 71,
+      "epsilon": 0.17352941176470585,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 70,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": -2,
+      "reward": -2.0,
+      "rejected": 1,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 72,
+      "epsilon": 0.1710084033613445,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 71,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 73,
+      "epsilon": 0.16848739495798318,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 72,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 74,
+      "epsilon": 0.16596638655462181,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 73,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 75,
+      "epsilon": 0.16344537815126048,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 74,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 4,
+        "blocks": 0,
+        "misses": 1
+      },
+      "touch_difference": -3,
+      "reward": -3.0,
+      "rejected": 1,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 76,
+      "epsilon": 0.16092436974789914,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 75,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 2,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 6
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 77,
+      "epsilon": 0.1584033613445378,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 76,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 4,
+        "blocks": 4,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 1
+      },
+      "touch_difference": 3,
+      "reward": 3.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 78,
+      "epsilon": 0.15588235294117644,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 77,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 2,
+        "blocks": 9,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 13,
+        "touches": 1,
+        "blocks": 5,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 79,
+      "epsilon": 0.1533613445378151,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 78,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 3
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 1,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 80,
+      "epsilon": 0.15084033613445377,
+      "states": 59,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 79,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 81,
+      "epsilon": 0.1483193277310924,
+      "states": 59,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 80,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 3,
+        "blocks": 2,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 3,
+      "reward": 3.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 82,
+      "epsilon": 0.14579831932773107,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 81,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 3,
+        "blocks": 0,
+        "misses": 4
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 83,
+      "epsilon": 0.14327731092436974,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 82,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 0,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 2,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 84,
+      "epsilon": 0.1407563025210084,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 3,
+      "seed": 83,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 5,
+        "blocks": 0,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 5,
+        "blocks": 0,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 20,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 85,
+      "epsilon": 0.13823529411764704,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 84,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 86,
+      "epsilon": 0.1357142857142857,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 85,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 9
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 87,
+      "epsilon": 0.13319327731092437,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 86,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 1,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 88,
+      "epsilon": 0.13067226890756303,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 87,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 7
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 89,
+      "epsilon": 0.12815126050420164,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 88,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 3,
+        "blocks": 3,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 4
+      },
+      "touch_difference": 3,
+      "reward": 3.0,
+      "rejected": 2,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 90,
+      "epsilon": 0.1256302521008403,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 89,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 5
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 3,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 91,
+      "epsilon": 0.123109243697479,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 90,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 6
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 92,
+      "epsilon": 0.12058823529411766,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 3,
+      "seed": 91,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 6
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 93,
+      "epsilon": 0.11806722689075627,
+      "states": 60,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 92,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 94,
+      "epsilon": 0.11554621848739494,
+      "states": 60,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 93,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 95,
+      "epsilon": 0.1130252100840336,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 94,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 2,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 2
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 96,
+      "epsilon": 0.11050420168067224,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 95,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 4
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 7
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 97,
+      "epsilon": 0.1079831932773109,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 96,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 1,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 98,
+      "epsilon": 0.10546218487394957,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 3,
+      "seed": 97,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 99,
+      "epsilon": 0.10294117647058823,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 98,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 100,
+      "epsilon": 0.10042016806722687,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 99,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 6
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 101,
+      "epsilon": 0.09789915966386553,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 100,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 3
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 102,
+      "epsilon": 0.0953781512605042,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 3,
+      "seed": 101,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 7
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 8
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 19,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 103,
+      "epsilon": 0.09285714285714286,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 102,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 5,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 2,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 104,
+      "epsilon": 0.09033613445378147,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 103,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 5,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 105,
+      "epsilon": 0.08781512605042013,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 104,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 3,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 106,
+      "epsilon": 0.0852941176470588,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 105,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 4
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 107,
+      "epsilon": 0.08277310924369746,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 106,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 0,
+        "blocks": 0,
+        "misses": 5
+      },
+      "opponent": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 3
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 21,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 108,
+      "epsilon": 0.08025210084033613,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 3,
+      "seed": 107,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 0,
+        "blocks": 4,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 22,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 109,
+      "epsilon": 0.07773109243697479,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 108,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 4,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 4
+      },
+      "touch_difference": 2,
+      "reward": 2.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 110,
+      "epsilon": 0.07521008403361346,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 109,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 3
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 111,
+      "epsilon": 0.07268907563025206,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 110,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 4,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 2
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 112,
+      "epsilon": 0.07016806722689073,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 2,
+      "seed": 111,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 2,
+        "blocks": 2,
+        "misses": 4
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 113,
+      "epsilon": 0.0676470588235294,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 112,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 2
+      },
+      "opponent": {
+        "attempts": 2,
+        "touches": 0,
+        "blocks": 2,
+        "misses": 1
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 114,
+      "epsilon": 0.06512605042016806,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 0,
+      "seed": 113,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 6
+      },
+      "touch_difference": 1,
+      "reward": 1.0,
+      "rejected": 0,
+      "updates": 23,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 115,
+      "epsilon": 0.06260504201680672,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 114,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 5,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 1,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 116,
+      "epsilon": 0.06008403361344539,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 115,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 9,
+        "touches": 1,
+        "blocks": 0,
+        "misses": 7
+      },
+      "opponent": {
+        "attempts": 10,
+        "touches": 1,
+        "blocks": 1,
+        "misses": 9
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 17,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 117,
+      "epsilon": 0.05756302521008405,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 116,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 6,
+        "misses": 1
+      },
+      "opponent": {
+        "attempts": 7,
+        "touches": 0,
+        "blocks": 6,
+        "misses": 1
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 26,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 118,
+      "epsilon": 0.055042016806722716,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 117,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 6,
+        "touches": 2,
+        "blocks": 1,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 2,
+        "blocks": 4,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 25,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 119,
+      "epsilon": 0.052521008403361324,
+      "states": 66,
+      "opponent_kind": "reactive",
+      "snapshot_index": null,
+      "seed": 118,
+      "side": "a",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 3,
+        "touches": 0,
+        "blocks": 1,
+        "misses": 0
+      },
+      "opponent": {
+        "attempts": 4,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 2
+      },
+      "touch_difference": -1,
+      "reward": -1.0,
+      "rejected": 1,
+      "updates": 27,
+      "time": 20.000000000000327
+    },
+    {
+      "episode": 120,
+      "epsilon": 0.04999999999999999,
+      "states": 66,
+      "opponent_kind": "frozen_self_snapshot",
+      "snapshot_index": 1,
+      "seed": 119,
+      "side": "b",
+      "finished": true,
+      "stopped": false,
+      "own": {
+        "attempts": 7,
+        "touches": 1,
+        "blocks": 2,
+        "misses": 3
+      },
+      "opponent": {
+        "attempts": 8,
+        "touches": 1,
+        "blocks": 3,
+        "misses": 5
+      },
+      "touch_difference": 0,
+      "reward": 0.0,
+      "rejected": 0,
+      "updates": 24,
+      "time": 20.000000000000327
+    }
+  ],
+  "opponent_tables": [
+    {
+      "5,0,0,0,1": [
+        0.025585881271817094,
+        0.0,
+        0.14238549082428542,
+        0.01416160561980482,
+        0.03675898073221563,
+        0.03303747112496038,
+        0.0,
+        0.0
+      ],
+      "5,1,0,0,0": [
+        0.006498665959130873,
+        0.0,
+        0.11969273181796633,
+        0.027775681171924374,
+        0.004150930668942972,
+        0.046574467470442235,
+        0.0,
+        0.0
+      ],
+      "4,1,0,0,0": [
+        0.01814912292058404,
+        0.0,
+        0.1499074280646415,
+        0.04618310589879543,
+        0.0040870673001149865,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,0": [
+        0.02694449229284776,
+        0.0,
+        0.007104695386714652,
+        0.06607689713978503,
+        -0.07353553264326562,
+        0.07464685571698446,
+        0.006084995873849014,
+        0.38813240276294364
+      ],
+      "1,0,0,0,1": [
+        -0.02708344141206541,
+        0.0,
+        0.09393090286830887,
+        -0.0392292366953776,
+        -0.2912878788320959,
+        0.0097242853053604,
+        0.099608022389449,
+        0.41328993113191903
+      ],
+      "1,1,0,0,1": [
+        0.0078101770141614305,
+        0.0,
+        0.0,
+        -0.03386393108749333,
+        -0.18932352285051512,
+        0.010908763581185196,
+        -0.14693747683643887,
+        0.11286622828720394
+      ],
+      "1,1,0,1,2": [
+        0.0,
+        0.027652928082431714,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,1": [
+        0.04148794281174856,
+        0.0,
+        0.17328775147340594,
+        0.024464469039706976,
+        0.016414764238021375,
+        0.006846349568096148,
+        0.031247048552864334,
+        0.08978552212266713
+      ],
+      "2,0,0,1,2": [
+        0.0,
+        0.14821080058851002,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,1": [
+        0.0,
+        0.13130039077783887,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,1": [
+        0.0,
+        0.0,
+        0.21794309465394368,
+        0.0,
+        -0.03521048315182892,
+        0.0,
+        0.053403847150419265,
+        0.0
+      ],
+      "2,0,0,0,2": [
+        0.054207312407322496,
+        0.0,
+        0.0241900106323809,
+        0.01797362562196162,
+        0.031047698266329915,
+        0.06503878400956631,
+        0.01339829732802225,
+        0.23238700781118393
+      ],
+      "2,0,0,1,1": [
+        0.0,
+        0.14163778641908117,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,0": [
+        0.008354864722268504,
+        0.0,
+        0.23109861286947497,
+        0.023429686773282967,
+        0.0,
+        0.015493913940302912,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,0": [
+        0.031941972707094604,
+        0.0,
+        0.27866724541201343,
+        0.03556631393727132,
+        0.0360698718134563,
+        0.08647566479472689,
+        0.0,
+        0.0
+      ],
+      "4,1,0,1,0": [
+        0.0,
+        0.060029535852275835,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,1": [
+        0.009747194882036828,
+        0.0,
+        0.14049578607682348,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,0": [
+        0.23425966634423154,
+        0.0,
+        -0.004685735979915892,
+        0.0,
+        0.0,
+        0.006578016252262181,
+        0.033120698617620445,
+        0.043086300525113336
+      ],
+      "1,1,0,0,0": [
+        0.0,
+        0.0,
+        0.03742614941613328,
+        0.02357281340467686,
+        0.08138936566798408,
+        0.02153702604297215,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,2": [
+        0.0,
+        0.20742460496856951,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,1": [
+        0.0,
+        0.0,
+        0.15749934345622615,
+        0.017342298275300115,
+        0.0,
+        0.0,
+        0.0,
+        0.1970601715883863
+      ],
+      "1,0,0,0,0": [
+        0.009455882629299237,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.02180091008494117,
+        0.0,
+        0.5243286745703146
+      ],
+      "2,1,0,1,2": [
+        0.0,
+        0.0990036278245385,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,0": [
+        0.0088735638533359,
+        0.0,
+        0.0,
+        0.07907181995275106,
+        0.00617114481024184,
+        0.0,
+        0.026851679824727144,
+        0.031321987007184623
+      ],
+      "2,1,0,0,0": [
+        0.0,
+        0.0,
+        0.1420521072656159,
+        0.013812456872191308,
+        0.03898796923355464,
+        0.0,
+        0.01707242704111855,
+        0.0
+      ],
+      "1,0,0,1,0": [
+        0.0,
+        0.1279486588337667,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,1,0": [
+        0.0,
+        0.1740065892838012,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.018723553798866383,
+        0.0,
+        0.0,
+        0.0,
+        0.2744520022035243
+      ],
+      "3,1,0,0,1": [
+        0.0077141480135835255,
+        0.0,
+        0.02610538502611476,
+        0.045002745496068294,
+        0.0,
+        0.00257275208153212,
+        0.0,
+        0.0
+      ],
+      "2,1,0,1,1": [
+        0.0,
+        0.09749072085144414,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,1,1": [
+        0.0,
+        0.2878356540415628,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,2": [
+        0.03522480828859221,
+        0.0,
+        0.13918635023218387,
+        0.006067768123372838,
+        0.0899266970013174,
+        0.038854738218810844,
+        0.005258825583164395,
+        -0.0001650000000000258
+      ],
+      "2,0,0,1,0": [
+        0.0,
+        0.20890428615551754,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,0": [
+        0.0,
+        0.04897487346730001,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "0,0,0,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.04856715390264771,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,2": [
+        0.0,
+        0.06469564898318154,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.1393049197451819,
+        0.0,
+        0.03346076794833243,
+        0.0,
+        0.0
+      ],
+      "4,1,0,0,1": [
+        0.0,
+        0.0,
+        0.047391706418169845,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,1,0,1,0": [
+        0.0,
+        0.046836206850984705,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.14151388627677522,
+        0.0,
+        0.2866692791786575,
+        0.056769013502148864
+      ],
+      "4,0,0,0,2": [
+        0.016730040417798908,
+        0.0,
+        0.06899746808909504,
+        0.0,
+        0.00617114481024184,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,1,0": [
+        0.0,
+        0.04845102552312498,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,1": [
+        0.0,
+        0.0,
+        0.04855054105134898,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,0": [
+        0.006515910738237664,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.08464348277282092,
+        0.0
+      ],
+      "2,0,1,0,2": [
+        0.0,
+        0.0,
+        0.04141999999999983,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04870560914120014,
+        0.0,
+        0.0
+      ],
+      "1,0,1,1,1": [
+        0.0,
+        0.04798861807612775,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04237999999999999,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,2": [
+        0.0,
+        0.0,
+        0.0543452119507406,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,0": [
+        0.0,
+        0.04862728553043278,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,1": [
+        0.0,
+        0.06303967325408306,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.04735037102823997,
+        0.008737934758680701,
+        0.03158112620232559,
+        0.0,
+        0.0
+      ],
+      "0,0,0,1,1": [
+        0.0,
+        0.05192017789604318,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,1": [
+        0.0,
+        0.05923249358654026,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,0": [
+        0.0,
+        0.0,
+        0.04234462879498597,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,1,1,0": [
+        0.0,
+        0.04899866595913089,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.10285390573779579,
+        0.0,
+        0.0
+      ],
+      "1,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04856132966643973,
+        0.0
+      ]
+    },
+    {
+      "5,0,0,0,1": [
+        0.025585881271817094,
+        0.0,
+        0.1838292809948383,
+        0.018740643449060665,
+        0.03675898073221563,
+        0.03303747112496038,
+        0.0,
+        0.0
+      ],
+      "5,1,0,0,0": [
+        0.026325307553859516,
+        0.0,
+        0.13893728690237747,
+        0.027775681171924374,
+        0.02901937930198944,
+        0.05599136573640396,
+        0.0,
+        0.0
+      ],
+      "4,1,0,0,0": [
+        0.030012467304378475,
+        0.0,
+        0.1739281384604035,
+        0.04618310589879543,
+        0.0040870673001149865,
+        0.007640701450907535,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,0": [
+        0.02694449229284776,
+        0.0,
+        0.007104695386714652,
+        0.06607689713978503,
+        -0.051734797168828256,
+        0.07464685571698446,
+        0.08616898021754332,
+        0.12349480568803206
+      ],
+      "1,0,0,0,1": [
+        0.026025830726886783,
+        0.0,
+        0.059496053655428385,
+        0.0334642026933742,
+        -0.12436908699016862,
+        0.028499063839422894,
+        -0.015085247763649764,
+        -0.0426693785543107
+      ],
+      "1,1,0,0,1": [
+        -0.09923813924339167,
+        0.0,
+        0.009317626598063546,
+        -0.11900502226015473,
+        -0.15619124884540064,
+        -0.09099495152185133,
+        -0.04724622725029509,
+        -0.030225871750650835
+      ],
+      "1,1,0,1,2": [
+        0.0,
+        0.027652928082431714,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,1": [
+        0.09530269410641584,
+        0.0,
+        0.2465574476398938,
+        0.0420963865280361,
+        0.016414764238021375,
+        0.005774397132881719,
+        0.031247048552864334,
+        0.08978552212266713
+      ],
+      "2,0,0,1,2": [
+        0.0,
+        0.14894640856408214,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,1": [
+        0.0,
+        0.08596703185868129,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,1": [
+        0.014296077606615571,
+        0.0,
+        0.19956732823311096,
+        0.048202165379208683,
+        0.008311187995026878,
+        0.0,
+        0.053403847150419265,
+        0.0
+      ],
+      "2,0,0,0,2": [
+        0.054207312407322496,
+        0.0,
+        0.0241900106323809,
+        0.020894251670769408,
+        0.031047698266329915,
+        0.06106587990756268,
+        0.036059001126480035,
+        0.2602932491296809
+      ],
+      "2,0,0,1,1": [
+        0.0,
+        0.19894313559608656,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,0": [
+        0.008354864722268504,
+        0.0,
+        0.2560749680118646,
+        0.04154243907830768,
+        0.0,
+        0.09105907991297045,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,0": [
+        0.031941972707094604,
+        0.0,
+        0.25772480732627845,
+        0.036108937870498264,
+        0.0360698718134563,
+        0.08647566479472689,
+        0.0,
+        0.0
+      ],
+      "4,1,0,1,0": [
+        0.0,
+        0.07086043579974691,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,1": [
+        0.009747194882036828,
+        0.0,
+        0.1436370904689817,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,0": [
+        0.18923536920447548,
+        0.0,
+        -0.004685735979915892,
+        0.0,
+        0.024922675774923565,
+        0.02994564119049193,
+        0.033120698617620445,
+        0.043086300525113336
+      ],
+      "1,1,0,0,0": [
+        0.0,
+        0.0,
+        0.03742614941613328,
+        0.08562834440821529,
+        -0.04519577258975982,
+        0.02153702604297215,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,2": [
+        0.0,
+        0.2077855719989688,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,1": [
+        0.0,
+        0.0,
+        0.15750665683689638,
+        0.017342298275300115,
+        0.0,
+        0.0,
+        -0.0007200000000001124,
+        0.20877924538416448
+      ],
+      "1,0,0,0,0": [
+        0.009455882629299237,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.02180091008494117,
+        0.0,
+        0.6459102830759257
+      ],
+      "2,1,0,1,2": [
+        0.0,
+        0.0990036278245385,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,0": [
+        0.0088735638533359,
+        0.0,
+        0.0,
+        0.09539260935787225,
+        0.00617114481024184,
+        0.023715226980410148,
+        0.026851679824727144,
+        0.031321987007184623
+      ],
+      "2,1,0,0,0": [
+        0.053785652004843205,
+        0.0,
+        0.17570378133492126,
+        0.013812456872191308,
+        0.03898796923355464,
+        0.0,
+        0.01707242704111855,
+        0.0
+      ],
+      "1,0,0,1,0": [
+        0.0,
+        0.1279486588337667,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,1,0": [
+        0.0,
+        0.2099319423650237,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.018723553798866383,
+        0.0,
+        0.0,
+        0.0,
+        0.14160426607757043
+      ],
+      "3,1,0,0,1": [
+        0.0077141480135835255,
+        0.0,
+        0.02610538502611476,
+        0.045002745496068294,
+        0.0,
+        0.00257275208153212,
+        0.0,
+        0.01995555020042151
+      ],
+      "2,1,0,1,1": [
+        0.0,
+        0.12262054364359859,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,1,1": [
+        0.0,
+        0.20254755348889986,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,2": [
+        0.06254956817507165,
+        0.0,
+        0.19755315078313807,
+        0.006067768123372838,
+        0.08553196741597029,
+        0.038854738218810844,
+        0.012467816008374466,
+        -0.0001650000000000258
+      ],
+      "2,0,0,1,0": [
+        0.0,
+        0.18331713946214184,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,0": [
+        0.0,
+        0.04785219503505997,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "0,0,0,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.07031807411926254,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,2": [
+        0.0,
+        0.09310899832695074,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,2": [
+        -0.12585652822371932,
+        0.0,
+        0.0,
+        0.14177687636338665,
+        0.0,
+        0.03346076794833243,
+        0.0,
+        0.024471322468329657
+      ],
+      "4,1,0,0,1": [
+        0.0,
+        0.0,
+        0.051271397734650115,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,1,0,1,0": [
+        0.0,
+        0.046836206850984705,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.13269263745427795,
+        0.0,
+        0.10798322693385351,
+        0.056769013502148864
+      ],
+      "4,0,0,0,2": [
+        0.016730040417798908,
+        0.0,
+        0.08454208992475476,
+        0.0,
+        0.00617114481024184,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,1,0": [
+        0.0,
+        0.04845102552312498,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,1": [
+        0.0,
+        0.0,
+        0.04855054105134898,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,0": [
+        0.006515910738237664,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.08464348277282092,
+        0.0
+      ],
+      "2,0,1,0,2": [
+        0.0,
+        0.0,
+        0.04141999999999983,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04870560914120014,
+        0.0,
+        0.0
+      ],
+      "1,0,1,1,1": [
+        0.0,
+        0.04798861807612775,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04237999999999999,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,2": [
+        0.0,
+        0.0,
+        0.08028275468872872,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,0": [
+        0.0,
+        0.04862728553043278,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,1": [
+        0.0,
+        0.06303967325408306,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.07167316363260211,
+        0.008737934758680701,
+        0.03158112620232559,
+        0.0,
+        0.0
+      ],
+      "0,0,0,1,1": [
+        0.0,
+        0.05192017789604318,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,1": [
+        0.0,
+        0.05923249358654026,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,0": [
+        0.0,
+        0.0,
+        0.04234462879498597,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,1,1,0": [
+        0.0,
+        0.04899866595913089,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.10285390573779579,
+        0.0,
+        0.0
+      ],
+      "1,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04856132966643973,
+        0.0
+      ]
+    },
+    {
+      "5,0,0,0,1": [
+        0.025585881271817094,
+        0.0,
+        0.177877559328949,
+        0.018740643449060665,
+        0.03675898073221563,
+        0.06424727019991854,
+        0.0,
+        0.0
+      ],
+      "5,1,0,0,0": [
+        0.0469233800047211,
+        0.0,
+        0.14786137561397958,
+        0.04399525451311581,
+        0.04389016775014726,
+        0.05599136573640396,
+        0.0,
+        0.0
+      ],
+      "4,1,0,0,0": [
+        0.03991641799757699,
+        0.0,
+        0.1626646403109496,
+        0.04618310589879543,
+        0.0040870673001149865,
+        0.007640701450907535,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,0": [
+        0.10036238400648125,
+        0.0,
+        0.0866617159218206,
+        0.06607689713978503,
+        -0.051734797168828256,
+        0.07464685571698446,
+        0.12267593526613282,
+        0.048961425006957465
+      ],
+      "1,0,0,0,1": [
+        0.06590633420511653,
+        0.0,
+        0.059496053655428385,
+        0.12763795287236643,
+        -0.12436908699016862,
+        0.032200174880157334,
+        0.00972943170394151,
+        -0.016579285463979878
+      ],
+      "1,1,0,0,1": [
+        -0.09923813924339167,
+        0.0,
+        0.009317626598063546,
+        -0.11900502226015473,
+        -0.15619124884540064,
+        -0.09099495152185133,
+        -0.04724622725029509,
+        0.16605559456436741
+      ],
+      "1,1,0,1,2": [
+        0.0,
+        0.027652928082431714,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,1": [
+        0.09530269410641584,
+        0.0,
+        0.19613133606489566,
+        0.0420963865280361,
+        0.016414764238021375,
+        0.005774397132881719,
+        0.031247048552864334,
+        0.08978552212266713
+      ],
+      "2,0,0,1,2": [
+        0.0,
+        0.19058225337387652,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,1": [
+        0.0,
+        0.09733260854028328,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,1": [
+        0.014296077606615571,
+        0.0,
+        0.29732891957387264,
+        0.048202165379208683,
+        0.008311187995026878,
+        0.0,
+        0.053403847150419265,
+        0.0
+      ],
+      "2,0,0,0,2": [
+        0.10221794467817744,
+        0.0,
+        0.08772560565124107,
+        0.03433625533311476,
+        0.04677652004887069,
+        0.06106587990756268,
+        0.048115198661050164,
+        0.13039665406639908
+      ],
+      "2,0,0,1,1": [
+        0.0,
+        0.19766652451017075,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,0": [
+        0.008354864722268504,
+        0.0,
+        0.20680912177399288,
+        0.04154243907830768,
+        0.0,
+        0.09105907991297045,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,0": [
+        0.031941972707094604,
+        0.0,
+        0.16373569093241425,
+        0.036108937870498264,
+        0.05456514136572378,
+        0.08647566479472689,
+        0.0,
+        0.0
+      ],
+      "4,1,0,1,0": [
+        0.0,
+        0.07086043579974691,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,1": [
+        0.009747194882036828,
+        0.0,
+        0.1436370904689817,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,0": [
+        0.13106529535429026,
+        0.0,
+        -0.004685735979915892,
+        0.0,
+        0.03799599159755665,
+        0.02994564119049193,
+        0.033120698617620445,
+        0.043086300525113336
+      ],
+      "1,1,0,0,0": [
+        0.0,
+        0.0,
+        0.03742614941613328,
+        0.1295320605845916,
+        -0.04519577258975982,
+        0.02153702604297215,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,2": [
+        0.0,
+        0.2077855719989688,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,1": [
+        0.0,
+        0.0,
+        0.1333476603189332,
+        0.017342298275300115,
+        0.04779619979399795,
+        0.027097153492904653,
+        -0.0007200000000001124,
+        0.169869630976553
+      ],
+      "1,0,0,0,0": [
+        0.009455882629299237,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.02180091008494117,
+        0.022442161099290377,
+        0.6086024580101677
+      ],
+      "2,1,0,1,2": [
+        0.0,
+        0.0833430836508576,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,0": [
+        0.03215965932725011,
+        0.0,
+        0.0,
+        0.08271579055452515,
+        0.00617114481024184,
+        0.023715226980410148,
+        0.022538927851018027,
+        0.031321987007184623
+      ],
+      "2,1,0,0,0": [
+        0.053785652004843205,
+        0.0,
+        0.15889997026492195,
+        0.013812456872191308,
+        0.03898796923355464,
+        0.0879228080188196,
+        0.01707242704111855,
+        0.0
+      ],
+      "1,0,0,1,0": [
+        0.0,
+        0.1279486588337667,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,1,0": [
+        0.0,
+        0.023364132677004712,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.018723553798866383,
+        0.0,
+        0.0,
+        0.0,
+        0.23906709323680084
+      ],
+      "3,1,0,0,1": [
+        0.0077141480135835255,
+        0.0,
+        0.02610538502611476,
+        0.04003394466208445,
+        0.0,
+        0.00257275208153212,
+        0.0,
+        0.01995555020042151
+      ],
+      "2,1,0,1,1": [
+        0.0,
+        0.11738423257077403,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,1,1": [
+        0.0,
+        0.20254755348889986,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,2": [
+        0.07457058036402678,
+        0.0,
+        0.08360637838036705,
+        0.006067768123372838,
+        0.08553196741597029,
+        0.038854738218810844,
+        0.012467816008374466,
+        -0.0001650000000000258
+      ],
+      "2,0,0,1,0": [
+        0.0,
+        0.250651323309551,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,0": [
+        0.0,
+        0.05242369911135199,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "0,0,0,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0821501164497131,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,2": [
+        0.0,
+        0.10139882854758059,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,2": [
+        -0.12585652822371932,
+        0.0,
+        0.0,
+        0.10816035692261276,
+        0.029435939701147995,
+        0.03346076794833243,
+        0.0,
+        0.024471322468329657
+      ],
+      "4,1,0,0,1": [
+        0.0,
+        0.0,
+        0.051271397734650115,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,1,0,1,0": [
+        0.0,
+        0.046836206850984705,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.13269263745427795,
+        0.0,
+        0.10798322693385351,
+        0.056769013502148864
+      ],
+      "4,0,0,0,2": [
+        0.016730040417798908,
+        0.0,
+        0.08454208992475476,
+        0.0,
+        0.00617114481024184,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,1,0": [
+        0.0,
+        0.04845102552312498,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,1": [
+        0.0,
+        0.0,
+        0.03771042534480893,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,0": [
+        0.023194597820783206,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.08464348277282092,
+        0.0
+      ],
+      "2,0,1,0,2": [
+        0.0,
+        0.0,
+        0.05622399990393083,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04870560914120014,
+        0.0,
+        0.0
+      ],
+      "1,0,1,1,1": [
+        0.0,
+        0.04798861807612775,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04237999999999999,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,2": [
+        0.0,
+        0.0,
+        0.08028275468872872,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,0": [
+        0.0,
+        0.070478014108267,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,1": [
+        0.0,
+        0.06303967325408306,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.07167316363260211,
+        0.008737934758680701,
+        0.03158112620232559,
+        0.0,
+        0.0
+      ],
+      "0,0,0,1,1": [
+        0.0,
+        0.053625159193121746,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,1": [
+        0.0,
+        0.05923249358654026,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04628648723569797,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,0": [
+        0.0,
+        0.0,
+        0.04234462879498597,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,1,1,0": [
+        0.0,
+        0.04899866595913089,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.10285390573779579,
+        0.0,
+        0.0
+      ],
+      "1,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.041157130216473756,
+        0.0012970480792436885
+      ],
+      "1,1,0,1,0": [
+        0.0,
+        -0.09377773170397462,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,1,0,2": [
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,1,0": [
+        0.0,
+        0.047952690591290446,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19820614176801238,
+        0.0
+      ],
+      "2,1,1,1,1": [
+        0.0,
+        0.04775106245555604,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "5,0,0,0,1": [
+        0.025585881271817094,
+        0.0,
+        0.13603057677953337,
+        0.018740643449060665,
+        0.03675898073221563,
+        0.06424727019991854,
+        0.0,
+        0.0
+      ],
+      "5,1,0,0,0": [
+        0.0469233800047211,
+        0.0,
+        0.12602443696386958,
+        0.04399525451311581,
+        0.04389016775014726,
+        0.05599136573640396,
+        0.0,
+        0.0
+      ],
+      "4,1,0,0,0": [
+        0.03991641799757699,
+        0.0,
+        0.1539391873117232,
+        0.07083241274168102,
+        0.0040870673001149865,
+        0.007640701450907535,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,0": [
+        0.12597966945832118,
+        0.0,
+        0.0866617159218206,
+        0.06607689713978503,
+        -0.051734797168828256,
+        0.08173733690429595,
+        0.1516797222023671,
+        0.048961425006957465
+      ],
+      "1,0,0,0,1": [
+        0.06590633420511653,
+        0.0,
+        0.06404587519239806,
+        0.1052543741304466,
+        -0.12436908699016862,
+        0.032200174880157334,
+        -0.12987412360461179,
+        0.002278091179187456
+      ],
+      "1,1,0,0,1": [
+        -0.09923813924339167,
+        0.0,
+        0.009317626598063546,
+        -0.11900502226015473,
+        -0.15619124884540064,
+        -0.09099495152185133,
+        -0.04724622725029509,
+        0.008621039012249615
+      ],
+      "1,1,0,1,2": [
+        0.0,
+        0.027652928082431714,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,0,0,1": [
+        0.09530269410641584,
+        0.0,
+        0.15490774654733305,
+        0.060918891717676185,
+        0.016414764238021375,
+        0.005774397132881719,
+        0.031247048552864334,
+        0.08978552212266713
+      ],
+      "2,0,0,1,2": [
+        0.0,
+        0.1469704333087006,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,1,1": [
+        0.0,
+        0.11117164208917427,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,1": [
+        0.014296077606615571,
+        0.0,
+        0.09302461602693272,
+        0.048202165379208683,
+        0.008311187995026878,
+        0.0,
+        0.053403847150419265,
+        0.0
+      ],
+      "2,0,0,0,2": [
+        0.1613742749774127,
+        0.0,
+        0.08772560565124107,
+        0.04398657532040151,
+        0.05652910738632702,
+        0.06106587990756268,
+        0.048115198661050164,
+        0.10129104972006589
+      ],
+      "2,0,0,1,1": [
+        0.0,
+        0.1824067965503315,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,0": [
+        0.008354864722268504,
+        0.0,
+        0.14519267824933696,
+        0.04154243907830768,
+        0.0,
+        0.09105907991297045,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,0": [
+        0.031941972707094604,
+        0.0,
+        0.1481856625829854,
+        0.036108937870498264,
+        0.05456514136572378,
+        0.08647566479472689,
+        0.0,
+        0.0
+      ],
+      "4,1,0,1,0": [
+        0.0,
+        0.07086043579974691,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,0,1": [
+        0.009747194882036828,
+        0.0,
+        0.1436370904689817,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,0": [
+        0.10057945128397171,
+        0.0,
+        -0.004685735979915892,
+        0.0,
+        0.03799599159755665,
+        0.02994564119049193,
+        0.033120698617620445,
+        0.043086300525113336
+      ],
+      "1,1,0,0,0": [
+        0.013208696821637847,
+        0.0,
+        0.03742614941613328,
+        0.12117298190670933,
+        -0.04519577258975982,
+        0.02153702604297215,
+        0.024278823731068322,
+        0.0
+      ],
+      "1,0,0,1,2": [
+        0.0,
+        0.1695795708805214,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,1": [
+        0.0,
+        0.0,
+        0.12700003500742316,
+        0.017342298275300115,
+        0.04779619979399795,
+        0.027097153492904653,
+        0.0219292108317292,
+        0.22897658564093681
+      ],
+      "1,0,0,0,0": [
+        0.015070417936890967,
+        0.0,
+        0.0,
+        0.0,
+        -0.0006000000000000933,
+        0.04434806550499219,
+        0.022442161099290377,
+        0.21116272273817094
+      ],
+      "2,1,0,1,2": [
+        0.0,
+        0.09248495929802819,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,0": [
+        0.03215965932725011,
+        0.0,
+        0.0,
+        0.08428817100094248,
+        0.00617114481024184,
+        0.023715226980410148,
+        0.022538927851018027,
+        0.031321987007184623
+      ],
+      "2,1,0,0,0": [
+        0.053785652004843205,
+        0.0,
+        -0.002224273008073943,
+        0.013812456872191308,
+        0.03898796923355464,
+        0.21968767166549377,
+        0.01707242704111855,
+        0.0
+      ],
+      "1,0,0,1,0": [
+        0.0,
+        0.1269397339259818,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,1,0": [
+        0.0,
+        0.037960305411485984,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.018723553798866383,
+        0.0,
+        0.0,
+        0.0,
+        0.19754514121786462
+      ],
+      "3,1,0,0,1": [
+        0.0077141480135835255,
+        0.0,
+        0.02610538502611476,
+        0.04003394466208445,
+        0.0,
+        0.00257275208153212,
+        0.0,
+        0.01995555020042151
+      ],
+      "2,1,0,1,1": [
+        0.0,
+        0.11738423257077403,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,1,1": [
+        0.0,
+        0.1860094242704035,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,0,2": [
+        0.07457058036402678,
+        0.0,
+        0.09405947978682393,
+        0.019833033881141535,
+        0.09766643792222858,
+        0.038854738218810844,
+        0.012467816008374466,
+        -0.0001650000000000258
+      ],
+      "2,0,0,1,0": [
+        0.0,
+        0.23224597352009557,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,0": [
+        0.0,
+        0.10001977628661823,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "0,0,0,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.10215104770501264,
+        0.018817713259303155,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,2": [
+        0.0,
+        0.10139882854758059,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,0,0,2": [
+        -0.12585652822371932,
+        0.0,
+        0.0,
+        0.08045554975903998,
+        0.029435939701147995,
+        0.03346076794833243,
+        0.0,
+        0.024471322468329657
+      ],
+      "4,1,0,0,1": [
+        0.0,
+        0.0,
+        0.05639928748089396,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "5,1,0,1,0": [
+        0.0,
+        0.046836206850984705,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12653975586367391,
+        0.0,
+        0.10798322693385351,
+        0.056769013502148864
+      ],
+      "4,0,0,0,2": [
+        0.016730040417798908,
+        0.0,
+        0.08563759355342766,
+        0.0,
+        0.00617114481024184,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "4,0,0,1,0": [
+        0.0,
+        0.04845102552312498,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,1": [
+        0.0,
+        0.0,
+        0.03771042534480893,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,0": [
+        0.023194597820783206,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.08464348277282092,
+        0.0
+      ],
+      "2,0,1,0,2": [
+        0.0,
+        0.0,
+        0.05622399990393083,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04870560914120014,
+        0.0,
+        0.0
+      ],
+      "1,0,1,1,1": [
+        0.0,
+        0.04798861807612775,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04237999999999999,
+        0.0,
+        0.0
+      ],
+      "5,0,0,0,2": [
+        0.0,
+        0.0,
+        0.08028275468872872,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,0": [
+        0.0,
+        0.08196675493027247,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,0,1,1": [
+        0.0,
+        0.12561794978723434,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.07554901434722688,
+        0.008737934758680701,
+        0.03158112620232559,
+        0.0,
+        0.0
+      ],
+      "0,0,0,1,1": [
+        0.0,
+        0.08359667096866678,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,0,1,1": [
+        0.0,
+        0.05923249358654026,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,1,1,0,0": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.04628648723569797,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,0": [
+        0.0,
+        0.0,
+        0.028387934475738057,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,1,1,1,0": [
+        0.0,
+        0.04899866595913089,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "1,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.10285390573779579,
+        0.0,
+        0.0
+      ],
+      "1,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.041157130216473756,
+        0.0012970480792436885
+      ],
+      "1,1,0,1,0": [
+        0.0,
+        -0.06165829531346796,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,2": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "3,0,1,0,2": [
+        0.0,
+        0.0,
+        0.046335488787005136,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,0,1,1,0": [
+        0.0,
+        0.047952690591290446,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2,1,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.048671144810241845,
+        0.0,
+        0.0
+      ],
+      "2,0,1,0,1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19820614176801238,
+        0.0
+      ],
+      "2,1,1,1,1": [
+        0.0,
+        0.04775106245555604,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "config": {
+    "simulation": {
+      "timestep": 0.01,
+      "arena_half_size": 3.0,
+      "robot_spacing": 2.5,
+      "translation_damping": 160,
+      "translation_gain": 350,
+      "joint_gain": 150
+    },
+    "motion": {
+      "step_distance": 0.22,
+      "sidestep_distance": 0.18,
+      "minimum_duration": 0.4,
+      "velocity_limits": [
+        0.8,
+        0.8,
+        3.0,
+        7.0,
+        7.0,
+        7.0,
+        7.0
+      ],
+      "acceleration_limits": [
+        3.0,
+        3.0,
+        14.0,
+        55.0,
+        55.0,
+        55.0,
+        55.0
+      ]
+    },
+    "match": {
+      "round_seconds": 20,
+      "rounds": 3,
+      "break_seconds": 2,
+      "defense_only": false
+    },
+    "policies": {
+      "a": {
+        "aggression": 0.72,
+        "reaction": 0.18,
+        "desired_distance": 0.78
+      },
+      "b": {
+        "aggression": 0.72,
+        "reaction": 0.18,
+        "desired_distance": 0.78
+      }
+    },
+    "safety": {
+      "min_separation": 0.66,
+      "monitor_separation": 0.6,
+      "boundary_margin": 0.45,
+      "boundary_override_margin": 0.35,
+      "path_samples": 25
+    },
+    "scoring": {
+      "minimum_forward_speed": 0.05
+    },
+    "viewer": {
+      "software": true,
+      "width": 1100,
+      "height": 760,
+      "frames_per_second": 50,
+      "camera_distance": 7.2,
+      "camera_azimuth": 90,
+      "camera_elevation": -25
+    },
+    "logging": {
+      "max_bytes": 5000000,
+      "backup_count": 3,
+      "level": "INFO",
+      "directory": "tmp/logs",
+      "result": "tmp/results/latest.json"
+    },
+    "training": {
+      "search_seed": 0,
+      "perturbation_std": [
+        0.15,
+        0.06,
+        0.06
+      ],
+      "lower_bounds": [
+        0.25,
+        0.08,
+        0.68
+      ],
+      "upper_bounds": [
+        0.98,
+        0.5,
+        0.95
+      ],
+      "validation_seed_offset": 10000,
+      "validation_opponents": [
+        {
+          "aggression": 0.45,
+          "reaction": 0.3,
+          "desired_distance": 0.76
+        },
+        {
+          "aggression": 0.95,
+          "reaction": 0.1,
+          "desired_distance": 0.9
+        }
+      ],
+      "iterations": 8,
+      "seeds": 3,
+      "round_seconds": 12,
+      "output": "tmp/policies/candidate.json"
+    },
+    "learning": {
+      "resume": "",
+      "episodes": 120,
+      "seconds": 20,
+      "seed": 0,
+      "alpha": 0.15,
+      "discount_per_second": 0.97,
+      "epsilon_start": 0.35,
+      "epsilon_end": 0.05,
+      "prior_bonus": 0.05,
+      "time_cost": 0.01,
+      "rejection_cost": 0.05,
+      "failure_cost": 5.0,
+      "snapshot_every": 20,
+      "pool_size": 4,
+      "validation_seeds": [
+        20000,
+        20001,
+        20002
+      ],
+      "output": "tmp/policies/tabular.json"
+    },
+    "perception": {
+      "position_noise": 0.0,
+      "velocity_noise": 0.0,
+      "delay_seconds": 0.0
+    }
+  },
+  "resumed_from": null,
+  "episode_offset": 0,
+  "resume_source": null,
+  "resume_config_changed": false,
+  "resume_source_changed": false,
+  "previous_evaluations": []
+}

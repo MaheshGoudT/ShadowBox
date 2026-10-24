@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "parameters": {
+    "aggression": 0.738859533164009,
+    "reaction": 0.17207370820252188,
+    "desired_distance": 0.818425359026597
+  },
+  "promoted": true,
+  "method": "seeded reactive-policy parameter search",
+  "report": "/home/mahesh/Desktop/ShadowBox/tmp/policies/guard-v2_report.json"
+}
