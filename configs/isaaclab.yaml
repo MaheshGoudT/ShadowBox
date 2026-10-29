@@ -1,0 +1,13 @@
+# An isolated Isaac Lab environment. This runs a G1 physics smoke task, not Match.
+backend: isaaclab
+isaaclab:
+  python: tmp/isaaclab/venv/bin/python
+  executable: tmp/isaaclab/venv/bin/isaaclab
+  version: 3.0.0
+  task: Isaac-Velocity-Flat-G1
+  physics: newton_mjwarp
+  num_envs: 1
+  steps: 200
+  visualizer: none
+  timeout_seconds: 600
+  output_dir: tmp/isaaclab

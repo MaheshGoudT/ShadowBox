@@ -27,6 +27,10 @@ def main() -> None:
     parser.add_argument('--loop', action='store_true', help='repeat matches or joint exercises until closed')
     parser.add_argument('--headless', action='store_true', help='run without a graphics window')
     parser.add_argument('--config', type=Path, help='partial YAML override of configs/simulation.yaml')
+    parser.add_argument('--backend', choices=('mujoco', 'isaaclab'),
+                        help='select a simulation environment (default: MuJoCo)')
+    parser.add_argument('--backend-dry-run', action='store_true',
+                        help='preview the Isaac Lab command without launching it')
     parser.add_argument('--seconds', type=float, help='limit simulated time and close the window')
     parser.add_argument('--round-seconds', type=float)
     parser.add_argument('--rounds', type=int)
@@ -46,6 +50,27 @@ def main() -> None:
     parser.add_argument('--supermimic', action='store_true', help='enable SuperMimic motion imitation')
     args = parser.parse_args()
     try:
+        from .integrations.isaaclab import detect_backend
+        configured_backend = detect_backend(args.config)
+        if args.backend and configured_backend and args.backend != configured_backend:
+            raise ValueError('CLI backend conflicts with the selected config')
+        backend = args.backend or configured_backend or 'mujoco'
+        if backend == 'isaaclab':
+            from .integrations.isaaclab import DEFAULT_CONFIG, load_isaaclab_config, run_backend
+            if args.config and configured_backend != 'isaaclab':
+                raise ValueError('Isaac Lab requires its separate configs/isaaclab.yaml')
+            unsupported = (args.demo or args.view or args.joint_demo or args.loop or args.seconds is not None
+                           or args.round_seconds is not None or args.rounds is not None
+                           or args.defense_only is not None or args.software is not None or args.capture
+                           or args.output or args.policy_a or args.policy_b or args.learned_a or args.learned_b
+                           or args.supermimic or args.seed != 0)
+            if unsupported:
+                raise ValueError('Isaac Lab currently runs its configured G1 smoke task; '
+                                 'boxing, match policies and timing flags are not yet supported')
+            return run_backend(load_isaaclab_config(args.config or DEFAULT_CONFIG),
+                               dry_run=args.backend_dry_run, headless=args.headless)
+        if args.backend_dry_run:
+            raise ValueError('--backend-dry-run is only available for Isaac Lab')
         config = load_config(args.config)
         if args.supermimic:
             config['supermimic']['enabled'] = True
@@ -190,4 +215,4 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

@@ -163,3 +163,23 @@ HoloBoxing provides a complementary contact-scored boxing benchmark; its
 have different point order, time windows and output semantics. Any conversion
 needs its own measured tests. The unified tracker does not replace the referee,
 safety supervisor, tactical actor or its promotion gate.
+
+
+## Configurable Isaac Lab environment
+
+The separate `configs/isaaclab.yaml` selects Isaac Lab 3.0.0 through
+`integrations/isaaclab.py`; MuJoCo remains the default boxing backend. The
+launcher invokes the upstream G1 velocity task with zero actions, Newton /
+MuJoCo-Warp, bounded steps, and logs under `tmp/isaaclab/`. It is a standalone
+free-base gravity/contact smoke test, not a two-player ShadowBox match. Its
+separate environment and execution prerequisites are in [Isaac Lab setup](isaaclab.md).
+The integration is not yet validated with an actual Isaac Lab simulation.
+
+A boxing backend still needs two robot instances, consistent action and observation
+contracts, measured glove and foot contacts, referee and safety semantics, and
+seeded cross-simulator comparisons. Preserve the existing gait and require
+per-robot free-base tracking, contact, timing and fall evaluation before
+hardware use. NVIDIA GR00T/GEAR-SONIC may supply a learned whole-body control
+research path, but is not a drop-in boxing policy; assess it after its model,
+robot mapping, weights and supported hardware can be tested. FLORA is an
+offline video annotation candidate, not a replacement for contact scoring.

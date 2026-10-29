@@ -21,7 +21,7 @@ If Debian/Ubuntu reports missing `ensurepip`, its OS `python3-venv` support is m
 | --- | --- | --- | --- |
 | MorphMimic shared humanoid tracker | Separate Python 3.11 training/export and CPU runtime environments | [Setup and integration](../docs/morphmimic.md) | Canonical bridge and launcher integrated; trained-bundle reproduction pending |
 | HoloBoxing / HoloMotion | Separate training and retarget environments | [Pinned upstream README](../external/HoloMotion/holoboxing/README.md) | Launcher verified; reference GPU training pending |
-| Isaac Lab GPU training | Separate `.venv-isaaclab` or upstream-managed environment | [Isaac Lab installation](https://docs.nvidia.com/isaaclab/isaac-lab/installation) | Not installed or validated here |
+| Isaac Lab GPU training | Separate `tmp/isaaclab/venv` | [Setup and integration](../docs/isaaclab.md) | Launcher integrated; GPU simulation not yet validated here |
 | SuperMimic tracking | Chosen reproduction's checkout/environment | [Research notes](../docs/research.md#supermimic-later-motion-layer) | Integration candidate |
 | FLORA annotation | Separate annotation environment/service | [FLORA project](https://research.nvidia.com/labs/gear/flora/) | Optional offline experiment |
 | Cosmos | Separate upstream environment | [Cosmos](https://www.nvidia.com/en-us/ai/cosmos/) | Deferred |
