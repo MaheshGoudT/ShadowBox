@@ -145,10 +145,3 @@ def make_unitree_model(timestep, config, directory=None):
             if kind == 'torso':
                 model.geom_size[target, 1] = max(0.01, half[2] - radius)
     return model
-
-
-def joint_manifest(model):
-    """Expose actual joint identities and ranges for model inspection and retargeting."""
-    return [dict(name=model.joint(index).name, limited=bool(model.jnt_limited[index]),
-                 range=model.jnt_range[index].tolist(), qpos=int(model.jnt_qposadr[index]))
-            for index in range(model.njnt)]

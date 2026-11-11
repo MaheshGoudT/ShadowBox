@@ -4,3 +4,6 @@
 [submodule "external/MorphMimic"]
 	path = external/MorphMimic
 	url = https://github.com/lzyang2000/morphmimic.git
+[submodule "external/mujoco_playground"]
+	path = external/mujoco_playground
+	url = https://github.com/google-deepmind/mujoco_playground.git

@@ -139,11 +139,7 @@ articulation:
 # Optional pose smoothing. A trained motion tracker is not included.
 natural_motion:
   enabled: false
-  use_gpu: true
-  smoothness_weight: 1.0
   velocity_limits: [0.8, 0.8, 3.0, 7.0, 7.0, 7.0, 7.0]
-  acceleration_limits: [3.0, 3.0, 14.0, 55.0, 55.0, 55.0, 55.0]
-  recovery_duration: 0.5
 supermimic:
   enabled: false
   model_path: ""

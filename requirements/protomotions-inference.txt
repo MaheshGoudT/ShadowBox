@@ -1,0 +1,4 @@
+# Native G1 CPU qualification; separate .venv-protomotions only.
+--extra-index-url https://download.pytorch.org/whl/cpu
+-r protomotions-base.txt
+torch==2.13.0+cpu

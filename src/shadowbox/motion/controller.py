@@ -226,7 +226,7 @@ class MotionController:
             self.arena.step()
         self.active = Primitive.IDLE
 
-    def cancel(self, seconds=None) -> None:
+    def cancel(self) -> None:
         """Hold the last continuous setpoint so the position servos settle."""
         self.busy = False
         self.active = Primitive.IDLE
@@ -234,6 +234,3 @@ class MotionController:
         self.segments = []
         self.elapsed = 0.0
         self.duration = 0.0
-        """Hold the last continuous setpoint so the position servos settle."""
-        self.busy = False
-        self.active = Primitive.IDLE

@@ -15,6 +15,7 @@ import uuid
 import yaml
 
 from ..config import PROJECT_ROOT, artifact_path
+from .backend import detect_backend  # Backwards-compatible import for callers.
 
 DEFAULT_CONFIG = PROJECT_ROOT / 'configs/isaaclab.yaml'
 
@@ -60,20 +61,6 @@ def load_isaaclab_config(path=DEFAULT_CONFIG):
     except ValueError as error:
         raise ValueError('isaaclab.output_dir must be inside ShadowBox tmp/') from error
     return settings
-
-
-def detect_backend(path):
-    if path is None:
-        return None
-    try:
-        value = yaml.safe_load(Path(path).read_text())
-    except (OSError, yaml.YAMLError) as error:
-        raise ValueError(f'Could not read configuration {path}') from error
-    if isinstance(value, dict) and 'backend' in value:
-        if value['backend'] not in ('mujoco', 'isaaclab'):
-            raise ValueError('backend must be mujoco or isaaclab')
-        return value['backend']
-    return None
 
 
 def build_command(settings, headless=False):

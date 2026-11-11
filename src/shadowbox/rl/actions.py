@@ -4,12 +4,10 @@ import math
 
 import numpy as np
 
-from ..motion import Primitive
+from ..motion.primitives import Primitive, TACTICAL_ACTIONS
 
 
-ACTIONS = (Primitive.GUARD, Primitive.TURN_TO_TARGET, Primitive.STEP_FORWARD,
-           Primitive.STEP_BACKWARD, Primitive.SIDESTEP_LEFT, Primitive.SIDESTEP_RIGHT,
-           Primitive.JAB, Primitive.CROSS, Primitive.BODY_GUARD, Primitive.UPPERCUT)
+ACTIONS = TACTICAL_ACTIONS
 
 
 def allowed_actions(observation, parameters, motion, minimum_separation, rules,

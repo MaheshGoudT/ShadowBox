@@ -1,0 +1,4 @@
+# User-wide hf CLI; keep it outside simulation environments.
+# Install: uv tool install 'huggingface_hub==2.4.0'
+# pip equivalent inside a dedicated tool environment: pip install -r requirements/huggingface-cli.txt
+huggingface_hub==2.4.0

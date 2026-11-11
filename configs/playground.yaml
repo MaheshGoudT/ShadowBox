@@ -1,0 +1,21 @@
+backend: playground
+playground:
+  python: .venv-playground-gpu/bin/python
+  checkout: external/mujoco_playground
+  revision: 66640404324ddfefd0223359a7b15974c22d6d63
+  task: ShadowBoxG1Defense
+  device: cuda:0
+  num_envs: 64
+  iterations: 1000
+  smoke_steps: 32
+  seed: 0
+  # Optional only for the separate upstream G1WholeBodyTracking task.
+  trajectory: null
+  checkpoint: null
+  timeout_seconds: 3600
+  output_dir: tmp/playground/runs
+  viewer: false
+  play_steps: 500
+  gif:
+    enabled: true
+    directory: tmp/playground/gifs

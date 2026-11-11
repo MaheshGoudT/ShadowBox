@@ -1,0 +1,3 @@
+# Optional ONNX motion inference in .venv-playground-gpu only.
+# Install after requirements/playground-gpu.txt; do not install the CPU ORT package alongside it.
+onnxruntime-gpu==1.31.1

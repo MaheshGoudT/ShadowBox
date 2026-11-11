@@ -1,0 +1,5 @@
+# Install from repository root into .venv-playground only.
+# Pin is owned by the external/mujoco_playground Git submodule.
+# uv pip install --python .venv-playground/bin/python --index https://py.mujoco.org -r requirements/playground.txt
+-e ./external/mujoco_playground[rl]
+pytest>=8

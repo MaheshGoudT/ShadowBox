@@ -1,0 +1,6 @@
+# Explicit CUDA 13.0 wheel for Thor validation, isolated from CPU validation env.
+# uv pip install --python .venv-playground-gpu/bin/python --index-strategy unsafe-best-match -r requirements/playground-gpu.txt
+--extra-index-url https://download.pytorch.org/whl/cu130
+--extra-index-url https://py.mujoco.org
+-r playground.txt
+torch==2.13.0+cu130

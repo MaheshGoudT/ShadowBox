@@ -1,0 +1,3 @@
+# Small inference dependency for exported motion/kinematics graphs.
+# Install into either isolated Playground environment; no ProtoMotions training stack.
+onnxruntime==1.31.1

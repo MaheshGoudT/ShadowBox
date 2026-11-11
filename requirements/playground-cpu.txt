@@ -1,0 +1,6 @@
+# Explicit CPU validation runtime; do not silently substitute for a CUDA config.
+# Run from repository root using uv and both indexes below.
+--extra-index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://py.mujoco.org
+-r playground.txt
+torch==2.13.0+cpu

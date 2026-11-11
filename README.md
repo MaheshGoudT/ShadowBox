@@ -2,6 +2,22 @@
 
 Two simple articulated humanoids spar in a MuJoCo boxing ring. Both have independent reactive offense/defense policies. The visible demo includes guard, jab, cross, approach, retreat, sidestep, round timing, virtual-touch scoring, and a HUD.
 
+MuJoCo Playground is the primary scalable simulation and RL integration, pinned
+as `external/mujoco_playground`. Use `shadowbox-playground doctor` and
+`shadowbox-playground train --dry-run` to inspect readiness and commands.
+See [Playground setup and boundaries](docs/playground.md). The CPU demo below
+remains the two-boxer tactical baseline. The new `ShadowBoxG1Motion` task now
+runs two free-base G1s with a qualified frozen controller, physical glove contacts
+and categorical guard/body-guard PPO train/save/reload. Short standing/contact
+checks pass; full boxing, movement and real-time performance remain open.
+The default `configs/playground.yaml` remains the batched joint-control diagnostic;
+use `shadowbox-playground evaluate --config configs/playground-motion-defense.yaml`
+for the tracker-backed task after [motion setup](docs/metatron-playground.md).
+Current architecture and acceptance boundaries are summarized in
+[docs/architecture.md](docs/architecture.md). Detailed local execution notes are
+in the ignored `docs/planning.md`. ManiFlow-style action chunks have an optional generic
+serving benchmark, with no Franka checkpoint dependency.
+
 ## Run
 
 From this folder:
@@ -22,10 +38,6 @@ shadowbox --policy-b tmp/policies/tabular.json
 shadowbox-learn # tabular reinforcement learning experiment
 shadowbox --learned-b tmp/policies/tabular.json
 shadowbox --supermimic # enable SuperMimic motion imitation
-python -m shadowbox.evaluation.scenarios
-pytest
-shadowbox-learn                             # tabular reinforcement learning experiment
-shadowbox --learned-b tmp/policies/tabular.json
 python -m shadowbox.evaluation.scenarios
 pytest
 ```

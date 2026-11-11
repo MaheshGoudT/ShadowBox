@@ -1,0 +1,30 @@
+backend: playground
+playground:
+  python: .venv-playground-gpu/bin/python
+  checkout: external/mujoco_playground
+  revision: 66640404324ddfefd0223359a7b15974c22d6d63
+  task: ShadowBoxG1Motion
+  device: cpu
+  num_envs: 1
+  iterations: 1
+  smoke_steps: 500
+  seed: 0
+  trajectory: null
+  checkpoint: null
+  timeout_seconds: 3600
+  output_dir: tmp/playground/runs
+  viewer: false
+  play_steps: 500
+  gif:
+    enabled: true
+    directory: tmp/playground/gifs
+  task_options:
+    retreat_speed_a: 0.27
+    retreat_speed_b: 0.18
+    start_distance: 0.6
+    opponent_enabled: true
+    terminate_opponent: true
+    motion_bundle: tmp/playground/metatron/compiled
+    motion_script: tmp/playground/metatron/compiled/unified_pipeline.cuda.graphsafe.b2.ts
+    motion_runtime: torchscript_graph
+    motion_device: cuda:0

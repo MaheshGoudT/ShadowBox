@@ -2,13 +2,39 @@
 
 ## Goal and current boundary
 
+**Infrastructure decision:** [MuJoCo Playground](playground.md) is the primary
+scalable simulation/RL backend. Its pinned adapter supports batched smoke/train/
+play and a two-free-base-G1 task. The transferred task uses a frozen Metatron
+motion controller; the learned categorical actor currently selects guard or
+body guard. Thirty-second posture/contact checks pass. Scripted exposed-target
+controls now register head/body contacts at 0.55–0.60 m on both sides and two
+attack delays; they do not qualify closed-guard attacks or a learned policy.
+Head contacts from a standstill at 0.70 m remain timing-sensitive; a measured
+0.5-second step-forward followed by a jab registers two to three head contacts
+per side across sampled yaw/lateral and swapped-start controls. Authored turn
+and footwork fixtures stay upright. Motion configs expose
+the fixed-layout backward baseline (0.27 m/s for side A and 0.18 m/s for side
+B); four paired reset seeds plus one swapped-start pair produce nearly equal
+retreat. These side-specific commands remain diagnostics, with measurable
+foot travel and residual facing
+drift; the learned actor still selects only IDs 0/8. Full boxing,
+movement-policy quality, useful learned defense, scalable self-play and
+real-time execution remain unqualified; detailed run evidence is in the local
+ignored `docs/planning.md`.
+The coding agent currently proposes code/config changes, runs simulations and
+records evidence as a manually orchestrated loop. Automatic candidate-skill
+generation, promotion and robot execution are future work.
+The CPU arena still owns the qualified tactical baseline. SOMA/Frax retargeting
+and GAWM planning remain separate interfaces. ManiFlow is optional
+serving/chunk benchmark inspiration, not a humanoid controller or dependency.
+
 ShadowBox is evolving toward one tactical boxing interface over robot-specific
-whole-body execution. The running two-player baseline uses Unitree G1 models
-with 29 native joints, IK placed feet, stabilized planar roots, disabled body
-collisions and virtual glove touches. It tests decisions and motion targets;
-free-base/contact tracking and eventual hardware qualification are separate
-gates. This document is the versioned current-state reference. The local
-`docs/planning.md` contains ignored execution notes and the active work schedule.
+whole-body execution. The legacy CPU arena uses Unitree G1 models with 29 native
+joints, IK-placed feet, stabilized planar roots, disabled body collisions and
+virtual glove touches. The separate Playground task adds free-base motion and
+physical contacts, but its boxing behavior and referee remain unqualified. This
+document is the versioned current-state reference. The active work schedule and
+dated evidence live in the local ignored `docs/planning.md`.
 
 ```mermaid
 flowchart LR
@@ -23,8 +49,8 @@ flowchart LR
     B[Per-robot joint map, sensor frame and action scale] --> E
     E --> M[Motion replay and transfer diagnostics]
     V[Paired boxing reference motions] --> M
-    S -. planned skill compiler .-> G[Full-motion or five-point goals]
-    G -. planned boxing backend .-> T[MorphMimic shared tracker]
+    S -. fixed-command diagnostic .-> G[Authored guard, punch and footwork goals]
+    G --> T[Metatron frozen tracker in Playground]
     B --> T
     T --> F[Upstream free-base sim2sim: G1, X2, T2]
     F --> Q[Tracking, contact, delay and fall gates]
@@ -36,11 +62,11 @@ flowchart LR
 | Pattern | What in ShadowBox | Why / adoption gate |
 |---|---|---|
 | Embodied agent | Separate observation, tactical action, motion controller, and safety supervisor. | Lets two players learn decisions while the same safety and physics checks apply to each policy. Keep this boundary. |
-| Explicit physics | Model joints, mass, friction, foot/glove contact, balance, and scoring in MuJoCo. | Actions depend on these quantities. Next replace root support and virtual touches with tested contacts. |
-| Imitation from video | Convert a short boxing clip to timestamped G1 root/joint targets with source and foot-contact labels. Replay and measure tracking and slide. | Gives natural stance, steps, and punches; accept clips only when retargeting and contact timing pass measured checks. |
+| Explicit physics | The legacy arena uses supported roots and virtual tags; the Playground task uses free-base G1s and physical floor/glove contacts. | Qualify contact outcomes, balance, foot support and referee semantics before replacing the legacy behavior. |
+| Imitation from video | Convert a short boxing clip to timestamped G1 root/joint targets with source and foot-contact labels. Replay and measure tracking and slide. | Gives natural stance, steps, and punches; accept clips only when retargeting and contact timing pass measured checks. Use as planner initialization, not as force or scoring truth. |
 | Simulation learning | Log aligned state, action, next-state transitions; fit residual or learned dynamics only where MuJoCo prediction is wrong. | Targets model error rather than replacing known rigid-body structure. Compare held-out prediction and rollout stability first. |
 | World-action model | Predict opponent and robot state conditional on both actions. | Could support defense and planning; defer until logged contact-rich two-player trajectories exist. |
-| RL and self-play | Train tactics against varied opponents; promote only on held-out seeds, activity, defense, and anti-repetition metrics. | Prevents the earlier cross-only scoring exploit. Do not optimize a policy against broken contact rules. |
+| RL and self-play | First train a high-level planner over qualified boxing goals against varied scripted and frozen opponents; then train two players against a historical opponent pool in paired vectorized worlds. | Current motion policy selects only guard/body guard and its paired transferred task is not a scalable self-play trainer. Qualify legal contacts, balance and punch episodes first; promote only on held-out seeds/opponents, activity, defense and anti-repetition metrics. |
 | Sim-to-real | Calibrate actuators/contact, randomize uncertainty, test falls and safety on free-base G1. | Needed before hardware claims; stabilized-root wins do not transfer by themselves. |
 | Differentiable model | Use gradients for parameter fitting or motion tracking when a specific experiment benefits. | Differentiability is optional for MuJoCo-based control and evaluation; benchmark prediction and cost before adding a backend. |
 
@@ -57,9 +83,23 @@ flowchart LR
 
 Photorealistic rendering and generative visual refinement are outside this simulator's objective. Keep the main physics and evaluation loop runnable while adding these capabilities.
 
-`v2/flora.py` contains placeholder annotation outputs, and
-`policy/lfm3_policy.py` is an experimental optional policy/fallback scaffold.
-Neither is a validated learned component of the current boxing loop.
+The browser viewer is opt-in and does not gate headless physics runs. When
+requested, the Python launcher selects the NVIDIA GLX/EGL provider so Chrome
+WebGL uses Thor hardware rather than Mesa llvmpipe. Headless rollout states use
+MuJoCo's offscreen EGL path to produce a reduced-resolution GIF in the
+configured `tmp/` directory (`playground.gif.directory`, default
+`tmp/playground/gifs`). Set `playground.gif.enabled: false` to skip rendering.
+Training stays headless; use a separate finite playback/evaluation run for a
+visual artifact.
+
+Unused FLORA placeholder outputs and the disconnected LFM3 fallback scaffold
+have been removed. Future integrations need real callers and measured outputs.
+
+Legacy code is retained only for a concrete value-add: the current arena supplies
+working matches, scoring, safety and tactical evaluation until the Playground
+two-robot task passes its replacement gates. Remove superseded implementations
+and duplicate paths as those gates pass; preservation alone is not a reason to
+keep them. The Playground migration is not yet complete.
 
 ## Tactical learning boundaries
 
@@ -71,23 +111,11 @@ Neither is a validated learned component of the current boxing loop.
 | `rl/ppo.py`, `rl/opponents.py` | Reactive imitation warm start, PPO updates, side swapping, start-distance curriculum, and varied/frozen opponents. |
 | `rl/evaluate.py` | Held-out seeds, both sides, defense specialists, action variety, safety, and promotion. Training never promotes its own checkpoint. |
 
-Tactical training and evaluation now both use strict swept 3D glove geometry.
-The experimental confirmed PPO pilot uses reproducible categorical action
-sampling; the activity, variety, touch-difference, safety and rejection gates
-remain separate from training reward. It is saved under `tmp/policies/` and is
-not automatically loaded by the live demo. Motion-tracking backends sit below
-the tactical policy.
-
-`rl/defense.py` adds a diagnostic gauntlet against legal, repeated head/body
-attackers. It records incoming attempts, blocks during guard decisions,
-conceded touches and opponent misses during evasions. This is separate from
-promotion. The saved October 28 pilot passed its original passive-opponent
-tests, but the new head-attack diagnostic conceded 23/74 attempts versus the
-reactive baseline's 5/79. Body defense conceded 29/60 versus 40/66. Every case
-had active threats, with no safety stops or rejected decisions. The saved
-checkpoint predates current sources and is a diagnostic baseline, not a newly
-promoted policy. Improving measured head defense is the immediate tactical
-priority before another qualified training run.
+The legacy CPU tactical path uses strict swept 3D glove geometry and a separate
+held-out evaluation. Its saved PPO pilot failed the head-defense comparison and
+was not promoted. It remains a baseline, not evidence that the free-base G1
+policy has learned boxing; current G1 results and gates are in the local
+execution plan (`docs/planning.md`).
 
 `scripts/tactical_iteration.py` runs the stages in order. Its separate simulation, audit, training, and evaluation files are listed in `configs/README.md`. The audit writes per-decision action outcomes, root and joint targets, closest glove-to-head/torso center approach, and diverse qualified examples to `tmp/`; imitation weights action classes equally. Training refuses stale or failed audits; evaluation keeps its own seeds and promotion decision. Center distance is a diagnostic, while the referee's swept collision result remains the score.
 
@@ -183,3 +211,22 @@ hardware use. NVIDIA GR00T/GEAR-SONIC may supply a learned whole-body control
 research path, but is not a drop-in boxing policy; assess it after its model,
 robot mapping, weights and supported hardware can be tested. FLORA is an
 offline video annotation candidate, not a replacement for contact scoring.
+
+## Current Playground boundary
+
+The tracker-backed task runs two free-base G1s through pinned Playground/reaf
+and uses the qualified frozen Metatron controller for low-level execution.
+Closed fists are fixed at reset; the current categorical actor has only guard
+and body-guard choices. Scripted exposed-target contact controls pass across
+both sides and 0.55–0.60 m; head punches at 0.70 m miss at immediate onset.
+The task has no qualified walking policy, learned two-sided boxing, round
+referee, vision frontend or real-time performance. Do not infer those
+capabilities from a finite PPO transport pilot.
+
+The architecture and task boundaries live here; operator setup is in
+[playground.md](playground.md), pinned motion-artifact commands are in
+[metatron-playground.md](metatron-playground.md), and detailed implementation
+evidence plus next acceptance gates are in the local execution plan
+(`docs/planning.md`). Keep the CPU arena until its live callers and capabilities
+pass the removal gates in
+[legacy-retention.md](legacy-retention.md).

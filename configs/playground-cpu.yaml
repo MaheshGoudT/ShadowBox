@@ -1,0 +1,20 @@
+backend: playground
+playground:
+  python: .venv-playground/bin/python
+  checkout: external/mujoco_playground
+  revision: 66640404324ddfefd0223359a7b15974c22d6d63
+  task: ShadowBoxG1Defense
+  device: cpu
+  num_envs: 1
+  iterations: 2
+  smoke_steps: 100
+  seed: 0
+  trajectory: null
+  checkpoint: null
+  timeout_seconds: 3600
+  output_dir: tmp/playground/runs
+  viewer: false
+  play_steps: 500
+  gif:
+    enabled: true
+    directory: tmp/playground/gifs

@@ -22,3 +22,26 @@ interpreters, robot profile and data/export/simulation paths under `tmp/`.
 `shadowbox-morphmimic` uses it for upstream stages; `shadowbox-motion-eval
 --morphmimic` uses it for canonical encoder/IMU diagnostic exports. See
 `docs/morphmimic.md` and the updated multi-robot layer in `docs/architecture.md`.
+
+## Playground
+
+`playground.yaml` configures the primary external simulation/RL backend. It is
+not merged into the CPU arena configuration. Use `shadowbox-playground` or
+`shadowbox --config configs/playground.yaml --headless` for the upstream smoke
+task. See [setup and task boundaries](../docs/playground.md).
+
+Tracker fixtures: `playground-motion.yaml` (standing),
+`playground-motion-defense.yaml` (active guard),
+`playground-motion-reactive.yaml` (geometry baseline),
+`playground-motion-exposed.yaml` (wide-hand threat control),
+`playground-motion-graph.yaml` (qualified fixed-batch CUDA graph experiment), and
+`playground-motion-train.yaml` (two-update categorical guard/body-guard pilot),
+`playground-motion-varied.yaml` (independent initial yaw/lateral variation), and
+`playground-motion-endurance.yaml` (30-second episode).
+These do not establish learned boxing or real-time capability. All Playground
+configs run headless by default. The `playground.gif.enabled` switch controls
+recorded preview rendering, and `playground.gif.directory` selects its output
+directory (default `tmp/playground/gifs`).
+Motion fixtures set `task_options.retreat_speed_a/b` as explicit baseline gait
+commands; the current diagnostic values are 0.27/0.18 m/s and should be
+replaced when real-to-sim calibration supplies qualified speeds.

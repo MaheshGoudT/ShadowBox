@@ -1,5 +1,11 @@
 # Python environments
 
+The primary scalable simulation/RL integration is now
+[MuJoCo Playground](../docs/playground.md), pinned under
+`external/mujoco_playground`. Install it in `.venv-playground` as documented
+there; the CPU baseline setup below remains independent. ManiFlow adds no
+required dependency.
+
 Run from the ShadowBox repository root:
 
 ```bash
@@ -19,6 +25,7 @@ If Debian/Ubuntu reports missing `ensurepip`, its OS `python3-venv` support is m
 
 | Experiment | Environment | Setup authority | Status |
 | --- | --- | --- | --- |
+| MuJoCo Playground (primary scalable simulation/RL) | Separate `.venv-playground` CPU / `.venv-playground-gpu` CUDA, Python 3.12/3.13 | [Setup and integration](../docs/playground.md) | Two-G1 CPU/GPU smoke, masked reset and PPO plumbing pass; sustained balance/defense pending |
 | MorphMimic shared humanoid tracker | Separate Python 3.11 training/export and CPU runtime environments | [Setup and integration](../docs/morphmimic.md) | Canonical bridge and launcher integrated; trained-bundle reproduction pending |
 | HoloBoxing / HoloMotion | Separate training and retarget environments | [Pinned upstream README](../external/HoloMotion/holoboxing/README.md) | Launcher verified; reference GPU training pending |
 | Isaac Lab GPU training | Separate `tmp/isaaclab/venv` | [Setup and integration](../docs/isaaclab.md) | Launcher integrated; GPU simulation not yet validated here |
@@ -96,3 +103,30 @@ the configured image. Docker, NVIDIA Container Toolkit and GPU access are
 separate prerequisites. Benchmark latency on the actual GPU; a result from a
 non-reference GPU does not establish official RTX 5090 qualification. Inspect
 `validation.json`, `match.json`, and replay before comparing with ShadowBox.
+
+## User-wide Hugging Face CLI
+
+The `hf` command is installed under `~/.local/bin/hf` using an isolated uv tool
+with `huggingface_hub==2.4.0`; the version is recorded in
+`requirements/huggingface-cli.txt`. Reproduce with:
+
+```bash
+uv tool install 'huggingface_hub==2.4.0'
+hf --version
+hf cache ls --cache-dir /home/mahesh/Desktop/huggingfacehub/hub
+```
+
+Use `/home/mahesh/Desktop/huggingfacehub` for shared model storage, as configured
+in `configs/simulation.yaml`. Supply `--cache-dir` on CLI downloads or use
+`HF_HOME=/home/mahesh/Desktop/huggingfacehub` and
+`HF_HUB_CACHE=/home/mahesh/Desktop/huggingfacehub/hub` for the specific process.
+Global shell settings and credentials were not changed. Existing Qwen bundles
+are language-model resources, not validated G1 motion-control weights. Any
+motion bundle still needs its native observation/action contract, source,
+license, revision and tracking checks.
+
+Official CLI install reference:
+[Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/en/guides/cli).
+
+The separate Metatron G1 export/runtime requirements and pinned artifact commands
+are documented in [the motion setup guide](../docs/metatron-playground.md).

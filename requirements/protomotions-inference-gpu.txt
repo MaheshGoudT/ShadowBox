@@ -1,0 +1,4 @@
+# Optional GPU export/runtime qualification; .venv-protomotions-gpu only.
+--extra-index-url https://download.pytorch.org/whl/cu130
+-r protomotions-base.txt
+torch==2.13.0+cu130

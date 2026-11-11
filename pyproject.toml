@@ -14,6 +14,8 @@ dev = ["pytest>=8"]
 learning = ["torch>=2.2"]
 
 [project.scripts]
+shadowbox-playground = "shadowbox.integrations.playground:main"
+shadowbox-policy-benchmark = "shadowbox.integrations.policy_chunks:main"
 shadowbox-isaaclab = "shadowbox.integrations.isaaclab:main"
 shadowbox-morphmimic = "shadowbox.integrations.morphmimic:main"
 shadowbox-holoboxing = "shadowbox.integrations.holoboxing:main"
