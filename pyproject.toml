@@ -32,7 +32,7 @@ shadowbox-tactics-defense = "shadowbox.rl.defense:main"
 where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 testpaths = ["tests"]
 cache_dir = "tmp/pytest-cache"
 addopts = "--basetemp=tmp/pytest"

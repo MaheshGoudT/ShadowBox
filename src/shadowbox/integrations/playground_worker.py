@@ -77,9 +77,9 @@ def main():
         traces = {key: [] for key in ('qpos', 'qvel', 'ctrl', 'action', 'qpos_next', 'reward', 'done', 'timeout')}
         sim = raw.device_layer.sim
         mujoco.mj_saveModel(sim.mj_model, str(args.output.with_name('model.mjb')), None)
-        if args.env in ('ShadowBoxG1Defense','ShadowBoxG1Motion'):
+        if args.env in ('ShadowBoxG1Defense','ShadowBoxG1Motion','ShadowBoxG1SelfPlay'):
             traces['boxing_events'] = []
-        if args.env=='ShadowBoxG1Motion':
+        if args.env in ('ShadowBoxG1Motion','ShadowBoxG1SelfPlay'):
             traces['requested_primitives']=[]
             traces['inference_ms']=[]
         episode_steps = torch.zeros(args.nworld, device=args.device, dtype=torch.long)
@@ -124,7 +124,7 @@ def main():
             torch.cuda.synchronize()
         seconds = time.monotonic() - start
         motion_identity = None
-        if args.env=='ShadowBoxG1Motion':
+        if args.env in ('ShadowBoxG1Motion','ShadowBoxG1SelfPlay'):
             motion_identity=raw.task_layer.get_component_by_name('motion').policy.provenance()
         contact_counts = None
         if 'boxing_events' in traces:
@@ -132,6 +132,9 @@ def main():
             valid = ~np.stack(traces['done']).astype(bool)
             contact_counts = (events * valid[..., None, None]).sum(axis=(0, 1)).tolist()
         np.savez_compressed(args.output.with_name('transitions.npz'), **{k: np.stack(v) for k, v in traces.items()})
+        scope = ('one-pair self-play candidate training/evaluation; no automatic promotion'
+                 if args.env == 'ShadowBoxG1SelfPlay' else
+                 'diagnostic rollout; no automatic policy promotion')
         args.output.write_text(json.dumps(dict(task=args.env, nworld=args.nworld,
             steps=args.steps, seed=args.seed, completed_episodes=completed,
             seconds=seconds, transitions_per_second=args.nworld * args.steps / seconds,
@@ -141,12 +144,12 @@ def main():
                 'zero' if args.zero_actions else
                 args.tactical_policy+'_primitive' if args.env=='ShadowBoxG1Motion' else 'zero'),
             contact_episode_counts_by_channel_and_glove=contact_counts,
-            contact_channel_order=['incoming_head', 'incoming_body', 'incoming_block', 'outgoing_head', 'outgoing_body'],
+            contact_channel_order=['incoming_head', 'incoming_body', 'incoming_block', 'outgoing_head', 'outgoing_body', 'outgoing_block'],
             completed_episode_steps=episode_lengths,
             censored_episode_steps=episode_steps.cpu().tolist(),
             mean_step_reward=float(np.stack(traces['reward']).mean()),
             transition_semantics='qpos_next is post-reset when done; exclude done rows from dynamics fitting',
-            scope='diagnostic rollout; no automatic policy promotion'), indent=2) + '\n')
+            scope=scope), indent=2) + '\n')
     finally:
         raw.close()
 

@@ -10,7 +10,8 @@ from reaf.simulation.torch import flat_scene as cfg
 from reaf.simulation.torch import feature_producer
 import torch
 
-CHANNELS = ('incoming_head', 'incoming_body', 'incoming_block', 'outgoing_head', 'outgoing_body')
+CHANNELS = ('incoming_head', 'incoming_body', 'incoming_block',
+            'outgoing_head', 'outgoing_body', 'outgoing_block')
 
 
 def sensor_components(history_length=4):
@@ -23,11 +24,12 @@ def sensor_components(history_length=4):
             result[f'{direction}_{target}'] = cfg.Component(devices.ContactSensorDevice,
                 fields=('found', 'force'), history_length=history_length).configure_spec(
                     objtype='geom', objname=gloves, reftype='geom', refname=f'{defender}/{geom}', reduce='netforce')
-    for hand in ('left', 'right'):
-        result[f'incoming_block_{hand}'] = cfg.Component(devices.ContactSensorDevice,
-            fields=('found', 'force'), history_length=history_length).configure_spec(
-                objtype='geom', objname=('b/left_glove', 'b/right_glove'),
-                reftype='xbody', refname=f'a/{hand}_elbow_link', reduce='netforce')
+    for direction, attacker, defender in (('incoming', 'b', 'a'), ('outgoing', 'a', 'b')):
+        for hand in ('left', 'right'):
+            result[f'{direction}_block_{hand}'] = cfg.Component(devices.ContactSensorDevice,
+                fields=('found', 'force'), history_length=history_length).configure_spec(
+                    objtype='geom', objname=(f'{attacker}/left_glove', f'{attacker}/right_glove'),
+                    reftype='xbody', refname=f'{defender}/{hand}_elbow_link', reduce='netforce')
     return result
 
 
@@ -53,7 +55,8 @@ class ContactEpisodes(feature_producer.FeatureProducer):
 
     def required_features_keys(self):
         sensors = ('incoming_head', 'incoming_body', 'outgoing_head', 'outgoing_body',
-                   'incoming_block_left', 'incoming_block_right')
+                   'incoming_block_left', 'incoming_block_right',
+                   'outgoing_block_left', 'outgoing_block_right')
         return ({f'{key}/force_history' for key in sensors}
                 | {f'{side}_root/{field}' for side in ('a', 'b') for field in ('xpos', 'xquat')})
 
@@ -67,8 +70,10 @@ class ContactEpisodes(feature_producer.FeatureProducer):
             return f[f'{key}/force_history'].norm(dim=-1).amax(dim=2) >= self.threshold
         ih, ib = contact('incoming_head'), contact('incoming_body')
         oh, ob = contact('outgoing_head'), contact('outgoing_body')
-        block = contact('incoming_block_left') | contact('incoming_block_right')
-        values = torch.stack((ih, ib & ~ih, block & ~ih & ~ib, oh, ob & ~oh), dim=1)
+        in_block = contact('incoming_block_left') | contact('incoming_block_right')
+        out_block = contact('outgoing_block_left') | contact('outgoing_block_right')
+        values = torch.stack((ih, ib & ~ih, in_block & ~ih & ~ib,
+                              oh, ob & ~oh, out_block & ~oh & ~ob), dim=1)
         legal = torch.ones(values.shape[0], dtype=torch.bool, device=values.device)
         for side in ('a', 'b'):
             q = f[f'{side}_root/xquat']

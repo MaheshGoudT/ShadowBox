@@ -9,6 +9,11 @@ class DefensiveDistributionCfg:
     class_name: str = "shadowbox.playground.primitive_distribution:DefensivePrimitiveDistribution"
 
 
+@dataclass
+class BoxingDistributionCfg:
+    class_name: str = "shadowbox.playground.primitive_distribution:BoxingPrimitiveDistribution"
+
+
 def register_tasks():
     from mujoco_playground._src.rl import env_registry
     from mujoco_playground._src.rl.rsl_rl.env_rl_config import G1WholeBodyTrackingRslRlOnPolicyRunnerCfg
@@ -38,3 +43,20 @@ def register_tasks():
         motion_runner.torch_compile_mode=None
         motion_runner.save_interval=10
         env_registry.register('ShadowBoxG1Motion',motion_runner,motion_env)
+
+    def selfplay_env(**kwargs):
+        if not kwargs.get('motion_bundle'):
+            raise ValueError('ShadowBoxG1SelfPlay requires a qualified exported motion bundle')
+        kwargs['self_play']=True
+        return boxing_env(**kwargs)
+
+    try:
+        env_registry.get('ShadowBoxG1SelfPlay')
+    except ValueError:
+        selfplay_runner=G1WholeBodyTrackingRslRlOnPolicyRunnerCfg()
+        selfplay_runner.actor.hidden_dims=(128,128)
+        selfplay_runner.critic.hidden_dims=(128,128)
+        selfplay_runner.actor.distribution_cfg=BoxingDistributionCfg()
+        selfplay_runner.torch_compile_mode=None
+        selfplay_runner.save_interval=10
+        env_registry.register('ShadowBoxG1SelfPlay',selfplay_runner,selfplay_env)

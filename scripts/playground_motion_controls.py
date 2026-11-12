@@ -27,7 +27,8 @@ def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def run_case(entry, options, *, seed, side, action_name, action_secs, settle_secs, out_dir):
+def run_case(entry, options, *, seed, side, action_name, action_secs, settle_secs,
+             start_distance, out_dir):
     import mujoco
     import torch
     from mujoco_playground._src.rl.rsl_rl.vecenv_wrapper import RslRlVecEnvWrapper
@@ -35,7 +36,7 @@ def run_case(entry, options, *, seed, side, action_name, action_secs, settle_sec
 
     action_id=ACTIONS[action_name]
     settings=dict(options)
-    settings.update(start_distance=.70,opponent_enabled=False,terminate_opponent=True,
+    settings.update(start_distance=start_distance,opponent_enabled=False,terminate_opponent=True,
         controlled_side=side,reset_yaw_radians=.15,reset_lateral_m=.05,
         swap_start_sides=settings.get('swap_start_sides',False),
         episode_length_secs=10.)
@@ -129,6 +130,10 @@ def run_case(entry, options, *, seed, side, action_name, action_secs, settle_sec
             configured_retreat_speeds_m_s={
                 'a':float(settings.get('retreat_speed_a',.18)),
                 'b':float(settings.get('retreat_speed_b',.18))},
+            configured_approach_speeds_m_s={
+                'a':float(settings.get('approach_speed_a',.27)),
+                'b':float(settings.get('approach_speed_b',.27))},
+            start_distance_m=start_distance,
             swap_start_sides=bool(settings.get('swap_start_sides',False)),
             steps=sim_steps,simulated_secs=sim_steps*DT,wall_secs=time.monotonic()-started,
             root_displacement_during_command_m=command_vec.tolist(),
@@ -157,11 +162,14 @@ def main():
     parser.add_argument('--actions',choices=tuple(ACTIONS),nargs='+',default=list(ACTIONS))
     parser.add_argument('--action-secs',type=float,default=1.0)
     parser.add_argument('--settle-secs',type=float,default=2.0)
+    parser.add_argument('--start-distance',type=float,default=.9,
+                        help='distance between the two robot roots in metres')
     parser.add_argument('--seed',type=int,default=17031)
     parser.add_argument('--swap-start-sides',action='store_true')
     args=parser.parse_args()
-    if not .2<=args.action_secs<=3 or not .2<=args.settle_secs<=5 or args.seed<0:
-        parser.error('Require action_secs in [.2, 3], settle_secs in [.2, 5], and a nonnegative seed')
+    if (not .2<=args.action_secs<=3 or not .2<=args.settle_secs<=5
+            or not .5<=args.start_distance<=2. or args.seed<0):
+        parser.error('Require action_secs in [.2, 3], settle_secs in [.2, 5], start_distance in [.5, 2], and a nonnegative seed')
     backend=PlaygroundBackend(args.config)
     if backend.settings['task']!='ShadowBoxG1Motion':
         parser.error('Motion controls require ShadowBoxG1Motion')
@@ -184,6 +192,10 @@ def main():
         configured_retreat_speeds_m_s={
             'a':float(options.get('retreat_speed_a',.18)),
             'b':float(options.get('retreat_speed_b',.18))},
+        configured_approach_speeds_m_s={
+            'a':float(options.get('approach_speed_a',.27)),
+            'b':float(options.get('approach_speed_b',.27))},
+        start_distance_m=args.start_distance,
         swap_start_sides=bool(options.get('swap_start_sides',False)),
         sides=args.sides,actions=args.actions,action_secs=args.action_secs,settle_secs=args.settle_secs,
         source_sha256=sources,cases=[])
@@ -193,7 +205,8 @@ def main():
             # Reuse each action seed on both sides for paired mirrored trials.
             case=run_case(entry,options,seed=args.seed+action_index,
                 side=side,action_name=action_name,action_secs=args.action_secs,
-                settle_secs=args.settle_secs,out_dir=case_dir)
+                settle_secs=args.settle_secs,start_distance=args.start_distance,
+                out_dir=case_dir)
             summary['cases'].append(case)
             (root/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
             print(json.dumps(case,indent=2),flush=True)

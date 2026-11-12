@@ -21,7 +21,7 @@ sys.path.insert(0,str(ROOT/'src'))
 from shadowbox.integrations.playground import PlaygroundBackend, PROJECT_ROOT
 
 DT=.02
-CHANNELS=('incoming_head','incoming_body','incoming_block','outgoing_head','outgoing_body')
+CHANNELS=('incoming_head','incoming_body','incoming_block','outgoing_head','outgoing_body','outgoing_block')
 
 
 def sha256(path):
@@ -30,7 +30,9 @@ def sha256(path):
 
 def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
              head_z, body_z, head_overshoot, body_overshoot, approach_secs,
-             reset_yaw_radians, reset_lateral_m, out_dir):
+             approach_action, reset_yaw_radians, reset_lateral_m, attacker_guard_width,
+             opponent_guard_width,
+             body_attack_arc_lateral, out_dir):
     import mujoco
     import torch
     from mujoco_playground._src.rl.rsl_rl.vecenv_wrapper import RslRlVecEnvWrapper
@@ -38,18 +40,24 @@ def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
 
     if attacker not in ('a','b') or target not in ('head','body'):
         raise ValueError('Invalid attacker or target')
+    pre_punch_actions={'forward':2,'sidestep-left':4,'sidestep-right':5}
+    if approach_action not in pre_punch_actions:
+        raise ValueError('Invalid pre-punch movement action')
     settings=dict(options)
     settings.update(start_distance=distance,opponent_enabled=False,controlled_side=attacker,
-        terminate_opponent=True,defender_guard_width=.45,opponent_guard_width=.45,
+        terminate_opponent=True,defender_guard_width=attacker_guard_width,
+        opponent_guard_width=opponent_guard_width,
         head_target_z=head_z,body_target_z=body_z,
         head_overshoot=head_overshoot,body_overshoot=body_overshoot,
+        body_attack_arc_lateral=body_attack_arc_lateral,
         opponent_attack_target=target,opponent_attack_delay_secs=delay,
         reset_yaw_radians=reset_yaw_radians,reset_lateral_m=reset_lateral_m,
         episode_length_secs=10.)
 
     case_name=f'{attacker}-{target}-d{distance:.2f}-t{delay:.2f}'
     if approach_secs:
-        case_name=f'{attacker}-{target}-d{distance:.2f}-a{approach_secs:.2f}-t{delay:.2f}'
+        case_name=(f'{attacker}-{target}-d{distance:.2f}-{approach_action}'
+                   f'-a{approach_secs:.2f}-t{delay:.2f}')
     out_dir.mkdir(parents=True,exist_ok=True)
     rng.seed(seed)
     raw=entry.env_builder(nworld=1,device='cpu',impl='cpp',**settings)
@@ -71,6 +79,7 @@ def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
                   for side,address in root_addresses.items()}
         approach_end_xy={side:value.copy() for side,value in start_xy.items()}
         channels=np.zeros((steps,len(CHANNELS),2),dtype=np.float32)
+        states=[]
         requested=np.zeros(steps,dtype=np.int32)
         heights={'a':[],'b':[]}
         upright={'a':[],'b':[]}
@@ -81,12 +90,13 @@ def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
         for step in range(steps):
             elapsed=step*DT
             if elapsed<approach_secs:
-                action_id=2
+                action_id=pre_punch_actions[approach_action]
             else:
                 elapsed-=approach_secs+delay
                 phase=elapsed%1.6 if elapsed>=0 else -1.
                 action_id=primitive if elapsed>=0 and phase<attack_duration else 0
             requested[step]=action_id
+            states.append(sim.data.qpos[0].detach().cpu().numpy().copy())
             action=torch.full((1,1),float(action_id),device='cpu')
             _,_,done,_=env.step(action)
             f=raw._latest_features
@@ -114,15 +124,18 @@ def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
         event_frames=np.flatnonzero(target_events.sum(axis=-1)>0).tolist()
         case=dict(name=case_name,seed=seed,distance_m=distance,attacker=attacker,
         target=target,delay_secs=delay,approach_secs=approach_secs,
+        approach_action=approach_action,
         reset_yaw_radians=reset_yaw_radians,reset_lateral_m=reset_lateral_m,
         configured_retreat_speeds_m_s={
             'a':float(settings.get('retreat_speed_a',.18)),
             'b':float(settings.get('retreat_speed_b',.18))},
         swap_start_sides=bool(settings.get('swap_start_sides',False)),
         steps=sim_steps,simulated_secs=sim_steps*DT,
-            wall_secs=elapsed_wall,opponent_guard_width=.45,defender_guard_width=.45,
+            wall_secs=elapsed_wall,opponent_guard_width=opponent_guard_width,
+            defender_guard_width=attacker_guard_width,
             head_target_z=head_z,body_target_z=body_z,
             head_overshoot=head_overshoot,body_overshoot=body_overshoot,
+            body_attack_arc_lateral=body_attack_arc_lateral,
             contact_episode_counts=dict(zip(CHANNELS,sums.tolist())),
             expected_target_events=int(target_events.sum()),
             expected_target_event_frames=event_frames,
@@ -134,6 +147,8 @@ def run_case(entry, options, *, seed, distance, attacker, target, delay, steps,
             approach_end_xy[attacker]-start_xy[attacker]))
         np.savez_compressed(out_dir/'trace.npz',boxing_events=channels[:sim_steps],
             requested_primitive=requested[:sim_steps])
+        np.savez_compressed(out_dir/'transitions.npz',
+            qpos=np.asarray(states[:sim_steps],dtype=np.float32)[:,None,:])
         (out_dir/'case.json').write_text(json.dumps(case,indent=2)+'\n')
         return case
     finally:
@@ -153,7 +168,15 @@ def main():
     parser.add_argument('--body-target-z',type=float,default=.15)
     parser.add_argument('--head-overshoot',type=float,default=.16)
     parser.add_argument('--body-overshoot',type=float,default=.08)
+    parser.add_argument('--body-attack-arc-lateral',type=float,default=0.,
+                        help='swing the cross target around the guard along the opponent-relative left axis')
+    parser.add_argument('--opponent-guard-width',type=float,default=.45,
+                        help='defender hand spacing in metres for closed-guard reach checks')
+    parser.add_argument('--attacker-guard-width',type=float,default=.45,
+                        help='controlled boxer hand spacing in metres')
     parser.add_argument('--approach-secs',type=float,default=0.)
+    parser.add_argument('--approach-action',choices=('forward','sidestep-left','sidestep-right'),
+                        default='forward',help='movement primitive before the scripted punch')
     parser.add_argument('--reset-yaw-radians',type=float,default=0.)
     parser.add_argument('--reset-lateral-m',type=float,default=0.)
     parser.add_argument('--swap-start-sides',action='store_true')
@@ -172,6 +195,11 @@ def main():
         parser.error('Target Z offsets are outside the task bounds')
     if not 0.<=args.head_overshoot<=.30 or not 0.<=args.body_overshoot<=.30:
         parser.error('Target overshoot is outside the task bounds')
+    if (not .10<=args.opponent_guard_width<=.50
+            or not .10<=args.attacker_guard_width<=.50):
+        parser.error('attacker/opponent guard widths must be in [.10, .50] meters')
+    if not -.25<=args.body_attack_arc_lateral<=.25:
+        parser.error('body-attack-arc-lateral must be in [-.25, .25] meters')
 
     backend=PlaygroundBackend(args.config)
     if backend.settings['task']!='ShadowBoxG1Motion':
@@ -196,12 +224,16 @@ def main():
         config=str(args.config),config_sha256=sha256(args.config),seed=args.seed,
         distances_m=args.distances,delays_secs=args.delays,sides=args.sides,targets=args.targets,
         steps=args.steps,approach_secs=args.approach_secs,
+        approach_action=args.approach_action,
         reset_yaw_radians=args.reset_yaw_radians,reset_lateral_m=args.reset_lateral_m,
         configured_retreat_speeds_m_s={
             'a':float(options.get('retreat_speed_a',.18)),
             'b':float(options.get('retreat_speed_b',.18))},
         swap_start_sides=bool(options.get('swap_start_sides',False)),
+        attacker_guard_width=args.attacker_guard_width,
         expected_case_count=len(args.distances)*len(args.sides)*len(args.targets)*len(args.delays),
+        opponent_guard_width=args.opponent_guard_width,
+        body_attack_arc_lateral=args.body_attack_arc_lateral,
         completed_case_count=0,complete=False,all_positive_controls=False,
         local_sources=local_sources,cases=[])
     (root/'summary.json').write_text(json.dumps(template,indent=2)+'\n')
@@ -214,14 +246,19 @@ def main():
                         raise RuntimeError('Runtime sources changed during contact-control run')
                     case_name=f'{attacker}-{target}-d{distance:.2f}-t{delay:.2f}'
                     if args.approach_secs:
-                        case_name=f'{attacker}-{target}-d{distance:.2f}-a{args.approach_secs:.2f}-t{delay:.2f}'
+                        case_name=(f'{attacker}-{target}-d{distance:.2f}-{args.approach_action}'
+                                   f'-a{args.approach_secs:.2f}-t{delay:.2f}')
                     case_dir=root/case_name
                     case=run_case(entry,options,seed=args.seed,distance=distance,
                         attacker=attacker,target=target,delay=delay,steps=args.steps,
                         head_z=args.head_target_z,body_z=args.body_target_z,
                         head_overshoot=args.head_overshoot,body_overshoot=args.body_overshoot,
-                        approach_secs=args.approach_secs,reset_yaw_radians=args.reset_yaw_radians,
+                        approach_secs=args.approach_secs,approach_action=args.approach_action,
+                        reset_yaw_radians=args.reset_yaw_radians,
                         reset_lateral_m=args.reset_lateral_m,
+                        attacker_guard_width=args.attacker_guard_width,
+                        opponent_guard_width=args.opponent_guard_width,
+                        body_attack_arc_lateral=args.body_attack_arc_lateral,
                         out_dir=case_dir)
                     template['cases'].append(case)
                     template['completed_case_count']=len(template['cases'])

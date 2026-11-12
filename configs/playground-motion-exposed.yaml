@@ -30,3 +30,5 @@ playground:
     motion_script: tmp/playground/metatron/compiled/unified_pipeline.cuda.ts
     motion_runtime: torchscript
     motion_device: cuda:0
+    max_punch_reach_m: 0.38
+    jab_arm_target: [-1.54810, -0.01048, 0.04930, 1.49]

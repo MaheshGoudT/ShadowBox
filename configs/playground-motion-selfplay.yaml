@@ -1,0 +1,58 @@
+backend: playground
+playground:
+  python: .venv-playground-gpu/bin/python
+  checkout: external/mujoco_playground
+  revision: 66640404324ddfefd0223359a7b15974c22d6d63
+  task: ShadowBoxG1SelfPlay
+  device: cuda:0
+  num_envs: 1
+  iterations: 10
+  smoke_steps: 500
+  seed: 21
+  trajectory: null
+  checkpoint: null
+  timeout_seconds: 86400
+  output_dir: tmp/playground/runs
+  viewer: false
+  play_steps: 500
+  gif:
+    enabled: true
+    directory: tmp/playground/gifs
+  self_play:
+    rounds: 7
+    updates_per_round: 10
+    opponent_pool_size: 4
+    rollout_steps: 64
+    alternate_controlled_side: true
+    opponent_guard_width_end: 0.1
+    approach_start_distance: 0.6
+    approach_start_distance_step: 0.05
+    curriculum_eval_steps: 300
+    entropy_coef: 0.02
+  task_options:
+    retreat_speed_a: 0.18
+    retreat_speed_b: 0.18
+    start_distance: 0.9
+    approach_speed_a: 0.4
+    approach_speed_b: 0.4
+    max_punch_reach_m: 0.38
+    approach_target_range_m: 0.5
+    approach_duration_secs: 0.6
+    jab_arm_target: [-1.54810, -0.01048, 0.04930, 1.49]
+    defender_guard_width: 0.1
+    opponent_guard_width: 0.45
+    body_target_z: -0.05
+    head_contact_reward: 4.0
+    body_contact_reward: 4.0
+    received_head_penalty: 4.0
+    received_body_penalty: 4.0
+    block_reward: 0.25
+    approach_progress_reward: 12.0
+    opponent_enabled: true
+    terminate_opponent: true
+    motion_bundle: tmp/playground/metatron/compiled
+    motion_script: tmp/playground/metatron/compiled/unified_pipeline.cuda.ts
+    motion_runtime: torchscript
+    motion_device: cuda:0
+    opponent_attack_target: alternating
+    controlled_side: a

@@ -16,14 +16,113 @@ and footwork fixtures stay upright. Motion configs expose
 the fixed-layout backward baseline (0.27 m/s for side A and 0.18 m/s for side
 B); four paired reset seeds plus one swapped-start pair produce nearly equal
 retreat. These side-specific commands remain diagnostics, with measurable
-foot travel and residual facing
-drift; the learned actor still selects only IDs 0/8. Full boxing,
+foot travel and residual facing drift. The established defensive actor selects
+only IDs 0/8. A new `ShadowBoxG1SelfPlay` prototype exposes nine authored
+primitive goals plus a CONTINUE action, which preserves the active skill phase;
+launched jab/cross skills finish their authored motion, and a requested
+follow-up punch is queued until that phase ends. It can train against a timed
+script and frozen policy snapshots, but currently uses one tracked pair and
+has no held-out promotion gate. Full boxing,
 movement-policy quality, useful learned defense, scalable self-play and
 real-time execution remain unqualified; detailed run evidence is in the local
 ignored `docs/planning.md`.
-The coding agent currently proposes code/config changes, runs simulations and
-records evidence as a manually orchestrated loop. Automatic candidate-skill
-generation, promotion and robot execution are future work.
+The self-play runner iterates PPO candidates against the timed scripted attack
+schedule and frozen previous policies.
+Its player-centric observations remove global yaw from root orientations,
+express opponent position and linear velocity in the controlled boxer's heading
+frame, canonicalize quaternion signs at 180 degrees, and expose the controlled
+boxer's active skill and phase. Training alternates the controlled side by
+round. A round-end contact check evaluates each role against the scripted
+opponent and advances the guard-width curriculum only when both roles record a
+legal touch. Failed checks keep training at the same width; each finished round
+atomically records league state for resumption. A held-out matrix runner checks
+both sides, start orientations, seeds and opponent snapshots. The 24-case
+head-defense candidate scored 81 head/18 body contacts against 10 head/44 body
+from opponents. Raising body reward from 4 to 5 while keeping head-hit penalty
+6 and block reward 0.5 yielded 63/23 against 1/48, with 313 blocks. This
+improved results against the newest snapshot (12/1 vs 0/9), but its aggregate
+net contact margin was 37 versus 45 for the prior candidate. Action 7 was
+sampled 589 times but the cross goal never executed; traces show target-turn
+and footwork requests canceling queued crosses. The current queue keeps a
+follow-up through CONTINUE and target turns, while guard and footwork cancel it.
+In a 12-case same-checkpoint ablation, cross goals executed for 224 steps
+against frozen snapshots; outgoing body contacts rose from 11 to 20, total
+candidate contacts stayed at 38, and conceded head contacts fell from one to
+zero while conceded body contacts rose from 23 to 25. A six-round continuation
+with this rule then completed all curriculum gates, but its 24-case held-out
+matrix scored only 25 head/3 body against 2 head/30 body from opponents and
+executed no crosses; it turned for all 2,400 steps against the older snapshot.
+That candidate is not promoted. The next controlled run resumes from the
+stronger head-defense checkpoint and its earlier opponent pool lineage to
+separate queue semantics from the later pool's effect. Evaluation remains
+diagnostic; there is no automatic promotion, skill extraction or robot
+execution.
+The controlled run `run-fac3c575226b` completed all six gates and all 24 held-out
+cases. It scored 87 head/10 body against 30 opponent contacts, with no head
+contacts conceded and 289 blocks; its aggregate net contact margin was 67,
+versus 45 for `run-95b52f800f10`. It is the strongest measured checkpoint so
+far, but it scored no body contacts against the scripted and newer-snapshot
+styles, so it remains a diagnostic candidate. Replay inspection found that
+the authored jab target could sit about 0.9 m from the shoulder while the
+tracked wrist reached about 0.51 m. The current implementation now targets the
+tracker's opponent-head point, limits the target to a configurable reach, and
+uses configurable 0.27 m/s approach speeds. The fixed-command 0.9 m approach
+moved each boxer about 0.27 m in one second. With a 1.5-second approach, the
+open-target head-jab control recorded three head contacts per side without a
+fall; a 0.11 m closed guard blocked both sides. The compiled tracker metadata
+conditions torso, ankles and hands but has no elbow input. Kinematic inspection
+measured about 0.39 m shoulder-to-wrist reach near full extension, below the
+0.48 m authored jab limit. A second issue was the hidden glove proxy sitting
+4 cm behind the tracker's wrist-to-palm point. The proxy now aligns at 0.12 m,
+the configured jab reach is capped at 0.38 m, and the active jab blends a
+calibrated four-joint arm target while preserving the tracked wrist path. In a
+fixed-control test from 0.9 m with a 1.5-second approach and open target, both
+sides made two head and two body contact episodes without falling; peak elbow
+bend was about 14 degrees. This verifies the contact path for a scripted
+positive control, not a learned jab or closed-guard strike. An elbow-aware
+tracker trained on retargeted boxing examples remains the preferred motion
+source. The first 0.9 m
+self-play continuation produced no legal contacts in four completed rounds.
+Adding the bounded approach reward alone did not pass the first 0.9 m gate.
+The earlier qualified checkpoint trained at 0.6 m and failed its first 0.65 m
+gate. The corrected curriculum passed 0.65 m and 0.70 m, but its candidate
+recorded no contacts in a four-case 0.9 m held-out check under the updated jab
+geometry. The next continuation resumed the qualified 0.70 m checkpoint. With
+the updated gait and progress reward, it passed 0.75 m on candidate three and
+0.80 m on candidate eight, then failed at 0.85 m; held-out evaluation of the
+0.80 m checkpoint from 0.9 m scored no head/body contacts in the eight-case
+held-out matrix against a 0.10 m guard; all 31 recorded candidate attacks were
+blocked. Against an exposed 0.45 m guard, four held-out cases scored 21 head
+and 43 body contacts, while conceding 8 body contacts. The jab runs and scores
+against an exposed target; attacking through a tight guard remains
+unqualified. A 10-second headless preview is saved as
+`tmp/playground/gifs/run-4bbbee954f67-play.gif`. The current baseline uses
+0.4 m/s approach speed, a 0.5 m target range, a 0.6-second queued approach,
+and progress reward 12 per meter capped at that range. A fixed-control test at
+0.4 m/s moved both sides about 0.64 m in 1.5 s, with no falls and 1–2 cm
+settling drift. These simulator baselines still need closed-guard qualification
+and later real-to-sim calibration.
+The 0.6 m stage passed with one legal body contact per side and advanced to
+0.65 m. The first three 0.65 m stages failed under the old action queue.
+Evaluation showed every sampled approach occurred during a jab and was dropped.
+The queue now preserves approach through the active punch and runs it for a
+configurable 0.4 seconds. On the same failed checkpoint, that change executed
+two approach bursts, moved 0.13 m forward, and produced one legal body contact.
+The corrected curriculum run `run-longrange-curriculum3-fac3-20261111` passed
+0.65 m on its fifth candidate (one head and one body contact per side), then
+passed 0.70 m on its seventh candidate (one body contact per side). Its
+continuation `run-longrange-approach04-20261112` uses faster approach and
+stronger distance-progress reward. It passed 0.75 m on candidate three and
+0.80 m on candidate eight, then failed its first 0.85 m gate. The latest
+qualified checkpoint is round 008 at 0.80 m; held-out evaluation from 0.90 m
+is pending. Neither candidate is promoted.
+Fixed-contact controls exposed a reach problem with the default rib target: at a
+0.11 m guard, lowering the configured body target to `-0.05 m` produced legal
+body contacts on both sides while the robots stayed upright. This is a measured
+simulator baseline, not a learned real-to-sim calibration; the PPO candidate
+still needs held-out checks against frozen policies.
+The cross goal has a bounded lateral trajectory arc so fixed controls can measure
+whether angled body shots reach around a closed guard before changing PPO reward.
 The CPU arena still owns the qualified tactical baseline. SOMA/Frax retargeting
 and GAWM planning remain separate interfaces. ManiFlow is optional
 serving/chunk benchmark inspiration, not a humanoid controller or dependency.
@@ -66,7 +165,7 @@ flowchart LR
 | Imitation from video | Convert a short boxing clip to timestamped G1 root/joint targets with source and foot-contact labels. Replay and measure tracking and slide. | Gives natural stance, steps, and punches; accept clips only when retargeting and contact timing pass measured checks. Use as planner initialization, not as force or scoring truth. |
 | Simulation learning | Log aligned state, action, next-state transitions; fit residual or learned dynamics only where MuJoCo prediction is wrong. | Targets model error rather than replacing known rigid-body structure. Compare held-out prediction and rollout stability first. |
 | World-action model | Predict opponent and robot state conditional on both actions. | Could support defense and planning; defer until logged contact-rich two-player trajectories exist. |
-| RL and self-play | First train a high-level planner over qualified boxing goals against varied scripted and frozen opponents; then train two players against a historical opponent pool in paired vectorized worlds. | Current motion policy selects only guard/body guard and its paired transferred task is not a scalable self-play trainer. Qualify legal contacts, balance and punch episodes first; promote only on held-out seeds/opponents, activity, defense and anti-repetition metrics. |
+| RL and self-play | Train the high-level actor over authored boxing goals against a scripted warm-start opponent and frozen policy snapshots. | `ShadowBoxG1SelfPlay` implements a one-pair PPO loop over IDs 0–8, mixing a timed scripted opponent and frozen actors by episode. Held-out performance varies by opponent; body contacts and defense trade off across snapshots. Round-to-round pool rotation and queued punch execution are implemented; movement cancels pending punches after a same-checkpoint replay showed excess body contacts when movement did not. It is not batched or automatically promoted. |
 | Sim-to-real | Calibrate actuators/contact, randomize uncertainty, test falls and safety on free-base G1. | Needed before hardware claims; stabilized-root wins do not transfer by themselves. |
 | Differentiable model | Use gradients for parameter fitting or motion tracking when a specific experiment benefits. | Differentiability is optional for MuJoCo-based control and evaluation; benchmark prediction and cost before adding a backend. |
 
@@ -119,7 +218,7 @@ execution plan (`docs/planning.md`).
 
 `scripts/tactical_iteration.py` runs the stages in order. Its separate simulation, audit, training, and evaluation files are listed in `configs/README.md`. The audit writes per-decision action outcomes, root and joint targets, closest glove-to-head/torso center approach, and diverse qualified examples to `tmp/`; imitation weights action classes equally. Training refuses stale or failed audits; evaluation keeps its own seeds and promotion decision. Center distance is a diagnostic, while the referee's swept collision result remains the score.
 
-For eventual G1 sim-to-real, first measure foot contact/slip, free-base balance, actuator tracking, impact and safety. Fit learned residual dynamics only if recorded hardware trajectories show repeatable MuJoCo prediction errors. A tactical win with a supported planar root does not establish hardware readiness.
+For eventual G1 sim-to-real, first measure foot contact/slip, free-base balance, actuator tracking, impact and safety. The Playground integration does not yet collect hardware trajectories or run system identification; the logged transition files are simulator data. Fit learned residual dynamics only if recorded hardware trajectories show repeatable MuJoCo prediction errors. A tactical win with a supported planar root does not establish hardware readiness.
 
 ## HoloMotion / HoloBoxing benchmark boundary
 

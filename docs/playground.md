@@ -105,7 +105,8 @@ evaluation remain gates. The scripted opponent can fall; no balance capability
 is inferred from bounded PD targets. Use Playground's scene,
 task and device configuration layers rather than writing another physics/RL
 engine. Tracking single-robot references does not implement opponent contacts
-or self-play. Validate those gates before replacing the stabilized baseline.
+or self-play by itself. The separate `ShadowBoxG1SelfPlay` task adds both.
+Validate those gates before replacing the stabilized baseline.
 Synthetic interaction trajectories can then feed GAWM predictive planning;
 GAWM and SOMA/Frax are architectural boundaries, not new runtime dependencies.
 Hardware rollout remains a separate qualification step.
@@ -117,6 +118,129 @@ hitboxes remain for contact measurement, with no visible fist-sized spheres.
 MuJoCo Studio's browser viewer needs WebGL 2 and still depends on browser frame
 rate. The headless GIF path uses offscreen EGL for repeatable review while the
 physics rollout stays independent of browser rendering speed.
+
+## Iterative policy self-play prototype
+
+`ShadowBoxG1SelfPlay` exposes nine authored goals (guard, turn, four movement
+primitives, jab, cross and body guard) plus a `CONTINUE` action to one learned
+boxer. `CONTINUE` keeps the active goal running through its timed phase; the
+player observation includes that boxer's active goal and normalized phase. Once
+a jab or cross starts, its authored motion completes. A follow-up punch request
+is latched until the active phase ends; `CONTINUE` and target-turn requests do
+not erase it, while a guard or footwork request clears it. Guard, turn and
+movement do not preempt an already active punch. It uses the same two-G1 tracker scene and a symmetric
+sparse reward from per-glove contact episodes, block contacts, posture, falls
+and ring exits. Head/body contact rewards and penalties are configurable task
+options. Contact events are training signals, not an official boxing referee
+or qualified score.
+The opponent starts as the built-in timed jab/cross schedule. After each PPO
+round, the runner exports a frozen actor and samples that schedule (or an
+explicit `opponent_policy_script`) alongside prior snapshots once per episode.
+The starting pool index rotates with the global round number, so a short round
+does not restart on the same first snapshot each time.
+This is one learner against a snapshot pool, not two simultaneously updated
+actors or a scalable league. The tracker
+currently restricts it to one paired world; no policy competence is claimed.
+The learner observation expresses relative position, orientation and linear
+velocity in the controlled boxer's heading frame, so swapping world-facing
+directions does not change the same physical state representation. Free-joint
+angular velocity remains local, matching MuJoCo's qvel convention. Quaternion
+signs use a canonical representative, including at the 180-degree boundary.
+
+Configure `configs/playground-motion-selfplay.yaml` with an exported Metatron
+bundle, then run:
+
+```bash
+.venv/bin/python -m shadowbox.integrations.playground doctor --config configs/playground-motion-selfplay.yaml
+.venv/bin/python -m shadowbox.integrations.playground selfplay --config configs/playground-motion-selfplay.yaml --dry-run
+.venv/bin/python -m shadowbox.integrations.playground selfplay --config configs/playground-motion-selfplay.yaml
+```
+
+The default is four rounds of ten PPO updates with 64 transitions per update.
+Training alternates the controlled boxer between sides A and B by round. After
+each round, the candidate is checked against the scripted opponent from both
+sides at the current guard width. The curriculum narrows from 0.45 m toward
+0.10 m only when both sides record at least one legal head/body touch in their
+300-step check; otherwise the next round retries the same width. Guard widths
+follow the controlled and opposing roles when sides swap. These settings are a
+configurable contact-learning experiment, not a calibrated opponent model.
+The self-play config targets the lower ribs at `body_target_z: -0.05`: fixed
+controls produced three legal body contacts per side through a 0.11 m guard at
+that height. At 0.11 m, the 24-case head-defense candidate scored 81 head/18
+body contacts against 10 head/44 body from opponents, with 318 blocks. Raising
+body reward from 4 to 5 while keeping head-hit penalty 6 and block reward 0.5
+produced 63 head/23 body against 1 head/48 body, with 313 blocks. Its net
+contact margin was 37 versus 45 for the head-defense candidate: it improved
+against the newest snapshot (12/1 vs 0/9) while giving up some total offense.
+Action 7 was sampled 589 times, but the cross goal never executed; traces show
+the queued request was canceled after target-turn or footwork choices. A
+same-checkpoint ablation preserved queued punches through target turns but
+still canceled them on guard or footwork. It produced 224 cross-goal steps
+against frozen snapshots and increased body contacts from 11 to 20 in the
+12-case seed-101 subset, with candidate total contacts unchanged at 38. A
+six-round continuation passed its curriculum gates but then scored only 25
+head/3 body against 2 head/30 body from opponents in the full 24-case matrix;
+it chose target-turn in all 2,400 steps against the older snapshot and executed
+no crosses, so that checkpoint is not promoted. The next iteration resumes
+from the prior head-defense checkpoint and its earlier opponent pool lineage.
+These are held-out diagnostics, not a qualified boxing score.
+
+Continue a previous league from its latest two-side-qualified checkpoint,
+restore the frozen snapshots available through that round, and start at the
+guard width recorded by its last passing gate:
+
+```bash
+.venv/bin/python -m shadowbox.integrations.playground selfplay \
+  --config configs/playground-motion-selfplay.yaml \
+  --resume-run tmp/playground/runs/run-<id>
+```
+
+Use `--resume-guard-width 0.15` to override the recorded next width when a
+held-out evaluation supports a more conservative restart. The trainer verifies
+the checkpoint hash and snapshot files before continuing. Within a run, failed
+stages continue updating the current candidate at the same guard width; when a
+new run resumes, it selects the last two-side-qualified checkpoint and starts
+with the opposite controlled role. The trainer
+carries prior round provenance into the new `league.json`. Configure
+`playground.self_play.opponent_guard_width_step` when retries should hold a fixed
+width increment instead of recomputing it from the remaining round budget.
+Each round writes a candidate checkpoint, deterministic TorchScript snapshot,
+and atomically updated `league.json` under its `tmp/playground/runs/` directory.
+The league records lineage and both-side curriculum measurements, so completed
+rounds remain resumable if a later round stops early. The runner does not perform
+held-out promotion. Evaluate candidates against fixed seeded opponents, both
+starting orientations and separate opponent snapshots before any promotion. The test
+task still supports only one world because the qualified frozen tracker bundle
+is batch-two for exactly the two robots.
+
+Run the diagnostic held-out matrix with an exported candidate checkpoint; pass
+one or more frozen opponent actors with repeated `--opponent` flags:
+
+```bash
+.venv/bin/python -m shadowbox.playground.selfplay_eval \
+  --config configs/playground-motion-selfplay.yaml \
+  --candidate tmp/playground/runs/run-<id>/round-003/candidate.pt \
+  --opponent tmp/playground/runs/run-<id>/round-002/snapshot/opponent.pt \
+  --seeds 101 103 --steps 500 --opponent-guard-width 0.12
+```
+
+It evaluates both controlled sides and both start orientations, records contact
+counts, completed/censored episode lengths and transition rate under `tmp/`,
+and exits nonzero if a case fails. The report includes `summary_by_opponent`
+totals for contacts, sampled actions and executed skill goals, including net
+head/body contact counts; the original per-case rows retain seed, controlled
+side and swapped-start fields. Set `--opponent-guard-width` to the measured
+curriculum stage; without it, evaluation uses the config's target width.
+`evaluation_seed` allows a config to request an exact evaluation seed; otherwise
+the adapter offsets its training seed.
+These measurements are diagnostic only. They do not implement promotion or an
+official match score.
+
+The trainer currently requires a local, qualified motion bundle and CUDA
+motion inference. New trainable policies are high-level primitive selectors;
+the tracker remains frozen. The learned actor receives player-centric
+proprioception and relative opponent state, not camera images or human video.
+No real-robot system identification or deployment is wired into this stage.
 
 ## Generic plugin boundary
 
@@ -239,21 +363,52 @@ A bounded fixed/reactive distance sweep is available through
 checks scripted head/body positive contacts on each side across distances and
 attack delays. Its `--approach-secs` option inserts a direct step-forward phase
 before the jab/cross sequence; `--reset-yaw-radians`, `--reset-lateral-m` and
-`--swap-start-sides` vary the starting state. Summaries mark incomplete runs
-explicitly. `playground_motion_controls.py` measures fixed
+`--swap-start-sides` vary the starting state. Set `--opponent-guard-width` to
+measure whether a fixed punch can reach through a narrower guard; the default
+0.45 m is the exposed-target control. `--body-attack-arc-lateral` bends the
+cross trajectory around the guard along the opponent-relative left axis for
+measured angled body-shot controls; the equivalent config option is
+`task_options.body_attack_arc_lateral` and defaults to zero. Summaries mark
+incomplete runs explicitly.
+`playground_motion_controls.py` measures fixed
 turn, forward/backward, and sidestep commands on both boxers, then runs posture,
 foot-contact and drift metrics. Both tools use diagnostic scripted actions;
 they do not expand the learned actor beyond IDs 0/8 or measure learned boxing
 skill. Their outputs remain under `tmp/`. Current paired movement and 0.70 m
 approach/contact evidence is summarized in the ignored local `docs/planning.md`.
-The motion configs expose validated `task_options.retreat_speed_a` and
-`retreat_speed_b` baseline values (currently 0.27 and 0.18 m/s). Four matched
-reset seeds and one swapped-start pair yield nearly equal travel. This
-calibration is specific to the diagnostic arena layout; real-to-sim calibration
-can replace the baseline. Varied-start stability, facing drift and sole travel
-remain under evaluation.
-The coding agent currently edits candidates, runs simulations and records
-provenance manually; an automatic skill-generation and promotion loop remains
-planned.
+The motion configs expose validated `task_options.approach_speed_a/b` and
+`retreat_speed_a/b` baseline values. The self-play config uses 0.4 m/s forward
+approach, a 0.38 m jab reach cap, a 0.5 m approach target, a 0.6-second queued
+approach and progress reward 12 per meter. A fixed-control test at 0.4 m/s
+moved both sides about 0.64 m in 1.5 s, with no falls and 1–2 cm settling drift.
+These are simulator baselines, not values inferred from real motion. A 0.9 m
+fixed-command test at 0.27 m/s moved each boxer about 0.27 m in one second.
+Jab debugging found two causes: the tracker does not
+condition elbow pose, and the hidden glove proxy was 4 cm behind the tracker's
+0.12 m wrist-to-palm point. The proxy now aligns to that point and the active
+jab blends a calibrated four-joint target with the tracked wrist path. A
+fixed-control test from 0.9 m with a 1.5-second approach recorded two head and
+two body contact episodes per side, without a fall; elbow bend reached about
+14 degrees at extension. This is a scripted open-target positive control, not
+a learned jab or a closed-guard result. Retargeted boxing examples and an
+elbow-aware tracker remain the preferred motion source.
+The six-round policy candidate scored 87 head/10 body against 30 opponent
+contacts over 24 cases, with no head contacts conceded; body attack coverage
+remains uneven, so it is not promoted. Its 0.9 m continuation initially
+produced no legal contacts. The earlier qualified checkpoint passed 0.65 m and
+0.70 m, then `run-longrange-approach04-20261112` resumed at 0.75 m with the
+updated 0.4 m/s gait and progress reward 12. It passed 0.75 m on candidate
+three and 0.80 m on candidate eight, then failed at 0.85 m. The 0.80 m
+checkpoint scored zero head/body contacts in eight 0.9 m held-out cases against
+a 0.10 m guard; all 31 recorded candidate attacks were blocked. Against an
+exposed 0.45 m guard, the same checkpoint scored 21 head and 43 body contacts
+over four 0.9 m cases, while conceding 8 body contacts. The straight jab is
+executing; the narrow guard stops it. A 10-second headless preview is saved at
+`tmp/playground/gifs/run-4bbbee954f67-play.gif`. Neither result qualifies
+closed-guard boxing or promotion; held-out defense and broader footwork checks
+remain necessary.
+The runner automates PPO iterations against frozen opponent snapshots.
+Held-out evaluation, candidate promotion, skill extraction and robot execution
+remain manual and unqualified.
 
 Pinned motion setup and export commands: [Metatron G1 artifact path](metatron-playground.md).

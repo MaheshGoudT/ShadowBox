@@ -15,9 +15,9 @@ from shadowbox.playground.task import TASK_ID, boxing_env, BoxingCommands, guard
 def test_scene_has_independent_free_bases_and_physical_contacts():
     config = boxing_env()
     model = config.base_scene.compile()
-    assert model.nq == 72
-    assert model.nv == 70
-    assert model.nu == 58
+    assert model.nq == 100  # 2 free bases, 58 body joints and 28 articulated fingers.
+    assert model.nv == 98
+    assert model.nu == 86
     assert (model.jnt_type == mujoco.mjtJoint.mjJNT_FREE).sum() == 2
     assert model.opt.gravity[2] < 0
     assert not model.body_gravcomp.any()
@@ -25,6 +25,7 @@ def test_scene_has_independent_free_bases_and_physical_contacts():
         for hand in ('left', 'right'):
             glove = model.geom(f'{side}/{hand}_glove')
             assert glove.contype[0] and glove.conaffinity[0]
+            assert glove.pos == pytest.approx([0.12, 0.0, 0.0])
     assert model.nsensor >= 4
 
 
@@ -135,6 +136,14 @@ def test_contact_episodes_do_not_count_holds_collapses_or_duplicate_blocks():
     f['incoming_block_right/force_history'][0, 1, :, 0] = 20
     referee.on_step(f)
     assert referee.counts[0, 2, 1] == 1
+    referee.reset()
+    for key in f:
+        if key.endswith('force_history'):
+            f[key].zero_()
+    referee.on_begin_stepping(f)
+    f['outgoing_block_left/force_history'][0, 0, :, 0] = 20
+    referee.on_step(f)
+    assert referee.counts[0, 5, 0] == 1
 
 
 def test_real_head_contact_is_classified_from_mujoco_force():
@@ -156,13 +165,56 @@ def test_real_head_contact_is_classified_from_mujoco_force():
         raw.device_layer.forward()
         head = sim.data.geom_xpos[0, model.geom('a/head_collision').id].clone()
         glove = sim.data.geom_xpos[0, model.geom('b/left_glove').id].clone()
-        sim.data.qpos[0, 36:39] += head + torch.tensor([.11, 0, 0]) - glove
+        root_joint = model.joint('b/floating_base_joint').id
+        root_address = model.jnt_qposadr[root_joint]
+        sim.data.qpos[0, root_address:root_address+3] += head + torch.tensor([.11, 0, 0]) - glove
         raw.device_layer.forward()
         raw.step({'action': torch.zeros(1, 29)})
         features = raw._latest_features
         measured = features['incoming_head/force_history'].norm(dim=-1).max()
         assert measured > 5
         assert features['boxing/counts'][0, 0, 0] == 1
+    finally:
+        raw.close()
+
+
+def test_selfplay_runs_with_frozen_opponent_actor(tmp_path):
+    from pathlib import Path
+    from mujoco_playground._src.rl import env_registry
+    from mujoco_playground._src.rl.rsl_rl.vecenv_wrapper import RslRlVecEnvWrapper
+
+    root=Path(__file__).resolve().parents[1]
+    bundle=root/'tmp/playground/metatron/compiled'
+    actor=tmp_path/'opponent.pt'
+
+    class FixedOpponent(torch.nn.Module):
+        def forward(self, observation):
+            # Continue the active cross once it appears in the skill-state input.
+            cross_active=observation[:,146]>.5
+            action=torch.where(cross_active,9.,7.)
+            return action.unsqueeze(-1)
+
+    torch.jit.trace(FixedOpponent(),torch.zeros(1,149)).save(str(actor))
+    register_tasks()
+    entry=env_registry.get('ShadowBoxG1SelfPlay')
+    raw=entry.env_builder(nworld=1,device='cuda:0',impl='warp',
+        motion_bundle=str(bundle),
+        motion_script=str(bundle/'unified_pipeline.cuda.ts'),
+        motion_runtime='torchscript',motion_device='cuda:0',opponent_enabled=True,
+        opponent_policy_script=str(actor),controlled_side='a')
+    try:
+        env=RslRlVecEnvWrapper(raw,cfg=entry.runner_cfg.vecenv_wrapper_cfg)
+        assert env.get_observations()['policy'].shape==(1,149)
+        with torch.inference_mode():
+            obs,reward,done,_=env.step(torch.zeros(1,1,device='cuda:0'))
+        assert obs['policy'].shape==(1,149)
+        assert torch.isfinite(reward).all() and not done.any()
+        assert raw._latest_features['motion/a_primitive'][0]==0
+        assert raw._latest_features['motion/b_primitive'][0]==7
+        with torch.inference_mode():
+            obs,reward,done,_=env.step(torch.zeros(1,1,device='cuda:0'))
+        assert raw._latest_features['motion/b_primitive'][0]==7
+        assert raw._latest_features['boxing/events'].shape==(1,6,2)
     finally:
         raw.close()
 

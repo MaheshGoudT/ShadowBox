@@ -4,6 +4,8 @@ This is a low-level joint-control training task, independent of the supported-ro
 legacy arena. No pretrained tracker or reference corpus is required.
 """
 import math
+from functools import partial
+from numbers import Real
 
 import mujoco
 from mujoco_playground.robots.g1.sim import device as g1
@@ -15,6 +17,7 @@ from gdm_robotics.interfaces import types as command_types
 import numpy as np
 import torch
 from mujoco_playground import asset
+from .skill_goals import STRAIGHT_JAB_ARM_TARGET
 
 TASK_ID = 'ShadowBoxG1Defense'
 DT = 0.02
@@ -113,11 +116,13 @@ def boxing_scene(xml_uri=None):
         while robot.keys:
             robot.delete(robot.keys[0])
         # Hidden glove hitboxes preserve measured hand contacts without drawing
-        # colored balls over the G1's visible hand meshes.
+        # colored balls over the G1's visible hand meshes. The tracker FK hand
+        # point is 0.12 m along the local wrist x axis; keep the contact proxy
+        # at that same point so physical hits match the conditioned hand target.
         for hand in ('left', 'right'):
             robot.body(f'{hand}_wrist_yaw_link').add_geom(
                 name=f'{hand}_glove', type=mujoco.mjtGeom.mjGEOM_SPHERE,
-                size=[0.065, 0, 0], pos=[0.08, 0, 0], mass=0.2,
+                size=[0.065, 0, 0], pos=[0.12, 0, 0], mass=0.2,
                 rgba=[0, 0, 0, 0],
                 contype=1, conaffinity=1)
         arena.attach(robot, prefix=f'{side}/', frame=arena.worldbody.add_frame())
@@ -209,6 +214,88 @@ def paired_observation(f):
                       f['b/joint_pos'], f['b/joint_vel'], f['action']), dim=-1)
 
 
+def player_observation(f, side='a', active_primitive=None, active_phase=None):
+    """Return yaw-invariant state, including this boxer's active skill phase."""
+    if side not in ('a', 'b'):
+        raise ValueError('Player observation side must be a or b')
+    other = 'b' if side == 'a' else 'a'
+
+    def yaw(quaternion):
+        w, x, y, z = quaternion.unbind(-1)
+        return torch.atan2(2 * (w * z + x * y),
+                           1 - 2 * (y.square() + z.square()))
+
+    def remove_yaw(quaternion, heading):
+        """Express a world quaternion after rotating the view to heading zero."""
+        w, x, y, z = quaternion.unbind(-1)
+        cosine = torch.cos(heading / 2)
+        sine = torch.sin(heading / 2)
+        local = torch.stack((cosine * w + sine * z,
+                             cosine * x + sine * y,
+                             cosine * y - sine * x,
+                             cosine * z - sine * w), dim=-1)
+        # q and -q encode the same rotation. Choose one stable representative,
+        # including the exactly 180-degree case where w is zero.
+        vector = local[..., 1:]
+        first_nonzero = (vector.abs() > 1e-7).to(torch.int64).argmax(dim=-1)
+        axis_value = vector.gather(-1, first_nonzero.unsqueeze(-1)).squeeze(-1)
+        flip = (local[..., 0] < -1e-7) | (
+            (local[..., 0].abs() <= 1e-7) & (axis_value < 0))
+        return torch.where(flip.unsqueeze(-1), -local, local)
+
+    def rotate_world_vector(vector, heading):
+        x, y, z = vector[..., :3].unbind(-1)
+        cosine, sine = torch.cos(heading), torch.sin(heading)
+        return torch.stack((cosine * x + sine * y,
+                            -sine * x + cosine * y, z), dim=-1)
+
+    own_quaternion = f[f'{side}_root/xquat']
+    other_quaternion = f[f'{other}_root/xquat']
+    heading = yaw(own_quaternion)
+    relative = f[f'{other}_root/xpos'] - f[f'{side}_root/xpos']
+    relative = rotate_world_vector(relative, heading)
+    own_root_velocity = f[f'{side}_root/joint_vel']
+    other_root_velocity = f[f'{other}_root/joint_vel']
+    # Free-joint linear velocity is world-frame; angular velocity is local.
+    own_root_velocity = torch.cat((rotate_world_vector(own_root_velocity, heading),
+                                   own_root_velocity[:, 3:]), dim=-1)
+    other_root_velocity = torch.cat((rotate_world_vector(other_root_velocity, heading),
+                                     other_root_velocity[:, 3:]), dim=-1)
+
+    def batch_value(value, key, default):
+        if value is None:
+            value = f.get(key)
+        if value is None:
+            value = own_quaternion.new_full((own_quaternion.shape[0],), default)
+        value = torch.as_tensor(value, device=own_quaternion.device)
+        if value.ndim == 0:
+            value = value.expand(own_quaternion.shape[0])
+        return value.reshape(own_quaternion.shape[0])
+
+    active_primitive = batch_value(active_primitive,
+                                   f'motion/{side}_primitive', 0).long().clamp(0, 8)
+    active_phase = batch_value(active_phase,
+                               f'motion/{side}_phase', 0).to(
+                                   own_quaternion.dtype).clamp(0, 2) / 2
+    active_skill = torch.nn.functional.one_hot(active_primitive, num_classes=9).to(
+        own_quaternion.dtype)
+    return torch.cat((f[f'{side}/joint_pos'],
+                      f[f'{side}/joint_vel'], remove_yaw(own_quaternion, heading),
+                      own_root_velocity, relative,
+                      remove_yaw(other_quaternion, heading), other_root_velocity,
+                      f[f'{other}/joint_pos'],
+                      f[f'{other}/joint_vel'], active_skill,
+                      active_phase.unsqueeze(-1)), dim=-1)
+
+
+def selfplay_observation_a(f):
+    return player_observation(f, 'a')
+
+
+def selfplay_observation_b(f):
+    return player_observation(f, 'b')
+
+
 def upright(f, side='a'):
     q = f[f'{side}_root/xquat']
     return 1 - 2 * (q[:, 1].square() + q[:, 2].square())
@@ -244,16 +331,59 @@ def defensive_reward(f, control_cost=True):
             - 50.0 * own_fall.float())
 
 
+def competitive_reward(f, controlled_side='a', head_contact_reward=4.,
+                       body_contact_reward=2., received_head_penalty=4.,
+                       received_body_penalty=2., block_reward=.25,
+                       approach_progress_reward=0.):
+    """Per-player sparse reward with separately tunable contact values."""
+    other = 'b' if controlled_side == 'a' else 'a'
+    events = f['boxing/events']
+    if controlled_side == 'a':
+        own_head, own_body = events[:, 3], events[:, 4]
+        received_head, received_body = events[:, 0], events[:, 1]
+        blocks_for, blocks_against = events[:, 2], events[:, 5]
+    else:
+        own_head, own_body = events[:, 0], events[:, 1]
+        received_head, received_body = events[:, 3], events[:, 4]
+        blocks_for, blocks_against = events[:, 5], events[:, 2]
+    own_fall = ((f[f'{controlled_side}_root/xpos'][:, 2] < 0.45)
+                | (upright(f, controlled_side) < 0.4))
+    opponent_fall = ((f[f'{other}_root/xpos'][:, 2] < 0.45)
+                     | (upright(f, other) < 0.4))
+    own_out = (f[f'{controlled_side}_root/xpos'][:, :2].abs() > 3).any(-1)
+    opponent_out = (f[f'{other}_root/xpos'][:, :2].abs() > 3).any(-1)
+    progress = f.get(f'motion/{controlled_side}_approach_progress')
+    approach_reward = (torch.zeros_like(own_head.sum(-1)) if progress is None else
+                       approach_progress_reward * progress.clamp(min=0))
+    return (head_contact_reward * own_head.sum(-1)
+            + body_contact_reward * own_body.sum(-1)
+            - received_head_penalty * received_head.sum(-1)
+            - received_body_penalty * received_body.sum(-1)
+            + block_reward * (blocks_for.sum(-1) - blocks_against.sum(-1))
+            + 0.2 * (upright(f, controlled_side) - upright(f, other))
+            + approach_reward
+            - 10.0 * own_fall.float() + 10.0 * opponent_fall.float()
+            - 5.0 * own_out.float() + 5.0 * opponent_out.float())
+
+
 
 def boxing_env(episode_length_secs=10.0, xml_uri=None, start_distance=0.6,
                opponent_enabled=True, terminate_opponent=True, motion_bundle=None,
                motion_script=None, motion_runtime='torchscript', motion_device='cuda:0', defender_guard_width=.10,
                opponent_guard_width=.10, head_target_z=.385, body_target_z=.15,
                head_overshoot=.16, body_overshoot=.08,
+               body_attack_arc_lateral=0.,
                retreat_speed_a=.18, retreat_speed_b=.18,
+               approach_speed_a=.27, approach_speed_b=.27,
+               max_punch_reach_m=.48, approach_target_range_m=.65,
+               approach_duration_secs=.4,
+               jab_arm_target=STRAIGHT_JAB_ARM_TARGET,
                opponent_attack_target='alternating', opponent_attack_delay_secs=0.,
-               controlled_side='a',
-               reset_yaw_radians=0., reset_lateral_m=0.,swap_start_sides=False):
+               controlled_side='a', self_play=False, opponent_policy_script=None,
+               reset_yaw_radians=0., reset_lateral_m=0.,swap_start_sides=False,
+               head_contact_reward=4., body_contact_reward=2.,
+               received_head_penalty=4., received_body_penalty=2., block_reward=.25,
+               approach_progress_reward=0.):
     if not 0<=reset_yaw_radians<=.15 or not 0<=reset_lateral_m<=.05:
         raise ValueError('Reset variation requires yaw in [0,.15] and lateral in [0,.05]')
     if type(swap_start_sides) is not bool:
@@ -267,8 +397,33 @@ def boxing_env(episode_length_secs=10.0, xml_uri=None, start_distance=0.6,
     retreat_speeds=np.asarray((retreat_speed_a,retreat_speed_b),dtype=np.float32)
     if not np.isfinite(retreat_speeds).all() or np.any((retreat_speeds<0)|(retreat_speeds>.4)):
         raise ValueError('retreat speeds must be finite and in [0, .4] m/s')
+    approach_speeds=np.asarray((approach_speed_a,approach_speed_b),dtype=np.float32)
+    if not np.isfinite(approach_speeds).all() or np.any((approach_speeds<0)|(approach_speeds>.4)):
+        raise ValueError('approach speeds must be finite and in [0, .4] m/s')
+    if not np.isfinite(max_punch_reach_m) or not .3<=max_punch_reach_m<=.7:
+        raise ValueError('maximum punch reach must be finite and in [.3, .7] m')
+    if not np.isfinite(approach_target_range_m) or not .5<=approach_target_range_m<=1.5:
+        raise ValueError('approach target range must be finite and in [.5, 1.5] m')
+    if not np.isfinite(approach_duration_secs) or not .1<=approach_duration_secs<=1.5:
+        raise ValueError('approach duration must be finite and in [.1, 1.5] seconds')
+    jab_arm_target=np.asarray(jab_arm_target,dtype=np.float32)
+    if (jab_arm_target.shape!=(4,) or not np.isfinite(jab_arm_target).all()
+            or np.any(np.abs(jab_arm_target)>3.2)):
+        raise ValueError('jab_arm_target must contain four finite joint angles within +/-3.2 rad')
     if controlled_side not in ('a','b'):
         raise ValueError('controlled_side must be a or b')
+    reward_weights=(head_contact_reward,body_contact_reward,received_head_penalty,
+                    received_body_penalty,block_reward,approach_progress_reward)
+    if any(isinstance(value,bool) or not isinstance(value,Real)
+           or not math.isfinite(value) or not 0.<=value<=20.
+           for value in reward_weights):
+        raise ValueError('Boxing contact reward weights must be finite values in [0, 20]')
+    if self_play and not motion_bundle:
+        raise ValueError('Self-play requires the tracker-backed primitive task')
+    if opponent_policy_script is not None and not self_play:
+        raise ValueError('opponent_policy_script requires the self-play task')
+    if opponent_policy_script is not None and not opponent_enabled:
+        raise ValueError('A learned opponent requires opponent_enabled: true')
     spec = boxing_scene(xml_uri)
     motion_enabled = motion_bundle is not None
     physics_dt = 0.001 if motion_enabled else 0.005
@@ -331,20 +486,39 @@ def boxing_env(episode_length_secs=10.0, xml_uri=None, start_distance=0.6,
             defender_guard_width=defender_guard_width,opponent_guard_width=opponent_guard_width,
             head_target_z=head_target_z,body_target_z=body_target_z,
             head_overshoot=head_overshoot,body_overshoot=body_overshoot,
+            body_attack_arc_lateral=body_attack_arc_lateral,
             retreat_speed_a=retreat_speed_a,retreat_speed_b=retreat_speed_b,
+            approach_speed_a=approach_speed_a,approach_speed_b=approach_speed_b,
+            max_punch_reach_m=max_punch_reach_m,
+            approach_target_range_m=approach_target_range_m,
+            approach_duration_secs=approach_duration_secs,
+            jab_arm_target=jab_arm_target.tolist(),
             opponent_attack_target=opponent_attack_target,
             opponent_attack_delay_secs=opponent_attack_delay_secs,
             controlled_side=controlled_side,
+            opponent_policy_script=opponent_policy_script,
             joint_names=list(g1.JOINT_NAMES),stiffness=model.actuator_gainprm[ids,0].tolist(),
             damping=(-model.actuator_biasprm[ids,2]).tolist(),effort=model.actuator_forcerange[ids,1].tolist())
         separate={}
-    observations = {'paired': cfg.Obs(paired_observation).configure(output_shape=(133+action_width,))}
+    obs_fn = (selfplay_observation_a if controlled_side == 'a' else selfplay_observation_b) if self_play else paired_observation
+    obs_width = 149 if self_play else 133 + action_width
+    observations = {'paired': cfg.Obs(obs_fn).configure(output_shape=(obs_width,))}
+    rewards = ({'boxing': cfg.Reward(partial(
+                   competitive_reward, controlled_side=controlled_side,
+                   head_contact_reward=float(head_contact_reward),
+                   body_contact_reward=float(body_contact_reward),
+                   received_head_penalty=float(received_head_penalty),
+                   received_body_penalty=float(received_body_penalty),
+                   block_reward=float(block_reward),
+                   approach_progress_reward=float(approach_progress_reward)), weight=1.0)}
+               if self_play else
+               {'defense': cfg.Reward(defensive_reward, weight=1.0, control_cost=not motion_enabled)})
     return cfg.Environment(base_scene=spec, device_layer=cfg.DeviceLayer(devices=device_map),
         task_layer=cfg.TaskLayer(
             command_feature_producers=shared,
             command_processors=separate,
             feature_producers={'contact_episodes': contact_episodes},
-            rewards={'defense': cfg.Reward(defensive_reward, weight=1.0, control_cost=not motion_enabled)},
+            rewards=rewards,
             terminations={'fall': cfg.Term(fallen, terminate_opponent=terminate_opponent),
                           'bounds': cfg.Term(out_of_bounds, terminate_opponent=terminate_opponent)},
             metrics={'incoming_force': cfg.Metric(contact_force, key='incoming', reduce='sum'),
